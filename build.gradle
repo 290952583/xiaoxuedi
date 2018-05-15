@@ -47,6 +47,7 @@ dependencies {
             'libs/taobao-sdk-java-auto_1489127792844-20180201.jar',
             'libs/commons-logging-1.1.1.jar',
             'libs/alipay-sdk-java-3.0.0.jar',
+            'libs/wxpay-sdk-0.0.3.jar',
     )
 
     providedCompile(

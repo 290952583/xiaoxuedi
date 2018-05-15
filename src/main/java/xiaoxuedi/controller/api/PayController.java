@@ -7,14 +7,19 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
+import com.github.wxpay.sdk.WXPay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xiaoxuedi.config.AlipayProperties;
+import xiaoxuedi.config.WxPayProperties;
 import xiaoxuedi.model.Output;
 import xiaoxuedi.model.pay.AppOrderInput;
 import xiaoxuedi.service.PayService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/pay")
@@ -26,6 +31,16 @@ public class PayController extends AbstractController {
     @Autowired
     private AlipayProperties alipayProperties;
 
+    @Autowired
+    private WxPayProperties wxPayProperties;
+
+    private WXPay wxpay;
+
+    /**
+     * 支付宝支付下单
+     * @param input
+     * @return
+     */
     @PostMapping("alipayCreateOrder")
     public Output alipayCreateOrder(AppOrderInput input){
 
@@ -59,6 +74,36 @@ public class PayController extends AbstractController {
 
 
         return  Output.output(respOrderInfo);
+    }
+
+    /**
+     * 微信支付统一下单
+     * @param input
+     * @return
+     */
+    @PostMapping("alipayCreateOrder")
+    public Output wxPayCreateOrder(AppOrderInput input) throws Exception {
+        wxpay = new WXPay(wxPayProperties);
+        HashMap<String, String> data = new HashMap<String, String>();
+        data.put("body", input.getBody());
+        data.put("out_trade_no", input.getOutTradeNo());
+        data.put("device_info", "WEB");
+        data.put("fee_type", "CNY");
+        data.put("total_fee", input.getTotalAmount());
+        data.put("spbill_create_ip", "127.0.0.1");//用户端实际ip
+        data.put("notify_url", wxPayProperties.getNotifyUrl());
+        data.put("trade_type", "NATIVE");
+        data.put("product_id", "12");
+        // data.put("time_expire", "20170112104120");
+
+        try {
+            Map<String, String> r = wxpay.unifiedOrder(data);
+            System.out.println(r);
+            return  Output.output(r);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    return  Output.outputError();
     }
 
 }
