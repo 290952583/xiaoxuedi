@@ -82,7 +82,7 @@ public class PayController extends AbstractController {
      * @param input
      * @return
      */
-    @PostMapping("alipayCreateOrder")
+    @PostMapping("wxCreateOrder")
     public Output wxPayCreateOrder(AppOrderInput input) throws Exception {
         wxpay = new WXPay(wxPayProperties);
         HashMap<String, String> data = new HashMap<String, String>();

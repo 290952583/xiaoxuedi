@@ -3,6 +3,7 @@ package com.xiaoxuedi.config;
 import com.github.wxpay.sdk.WXPayConfig;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.ResourceUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -16,8 +17,9 @@ public class WxPayProperties implements WXPayConfig {
     private byte[] certData;
 
     public WxPayProperties() throws Exception {
-        String certPath = "apiclient_cert.p12";
-        File file = new File(certPath);
+//        String certPath = ResourceUtils.CLASSPATH_URL_PREFIX+"";
+//        File file = new File(certPath);
+        File file = ResourceUtils.getFile("classpath:apiclient_cert.p12");
         InputStream certStream = new FileInputStream(file);
         this.certData = new byte[(int) file.length()];
         certStream.read(this.certData);
