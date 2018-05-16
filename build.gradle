@@ -41,6 +41,8 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-validation',
             'org.springframework.boot:spring-boot-starter-web',
             'Pingplusplus:pingpp-java:2.+',
+            'com.qiniu:qiniu-java-sdk:7.+',
+            'cn.jpush.api:jpush-client:3.+',
     )
 
     compile files(

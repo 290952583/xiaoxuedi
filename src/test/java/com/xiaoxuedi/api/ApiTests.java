@@ -13,6 +13,7 @@ import com.xiaoxuedi.model.common.SendSmsInput;
 import com.xiaoxuedi.model.mission.*;
 import com.xiaoxuedi.model.order.ChargeInput;
 import com.xiaoxuedi.model.order.TransferInput;
+import com.xiaoxuedi.util.QiniuUtil;
 import okhttp3.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -215,5 +217,13 @@ public class ApiTests extends Assert
         output = service.list().execute().body();
         assertEquals(output.getCodeInfo(), Output.Code.OK);
         System.out.println(output.getData());
+    }
+
+    @Test
+    public void testQiniu() throws Exception{
+        File file = new File("C:\\Users\\Administrator\\Desktop\\1525670186(1).jpg");
+        QiniuUtil qiniuUtil = new QiniuUtil();
+        String name = qiniuUtil.UploadFile(file);
+        System.out.println("上传成功"+name);
     }
 }
