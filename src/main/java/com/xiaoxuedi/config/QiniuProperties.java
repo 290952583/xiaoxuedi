@@ -24,4 +24,5 @@ public class QiniuProperties {
     private String access_key;
     //秘钥
     private String secret_key;
+
 }

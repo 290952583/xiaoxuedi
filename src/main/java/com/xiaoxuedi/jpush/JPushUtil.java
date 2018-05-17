@@ -18,6 +18,15 @@ import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * JPush 工具类
+ *
+ * @author xuxin
+ * @company
+ * @project xiaoxuedi
+ * @date 2018-01-26 11:00
+ *
+ **/
 @Slf4j
 public class JPushUtil {
 

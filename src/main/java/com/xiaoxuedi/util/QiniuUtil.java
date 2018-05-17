@@ -19,6 +19,7 @@ import java.util.UUID;
  * @Company:
  * @Project: xiaoxuedi
  * @Modified By:
+ *
  */
 public class QiniuUtil {
 

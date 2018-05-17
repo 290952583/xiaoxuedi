@@ -43,6 +43,7 @@ dependencies {
             'Pingplusplus:pingpp-java:2.+',
             'com.qiniu:qiniu-java-sdk:7.+',
             'cn.jpush.api:jpush-client:3.+',
+            'org.json:json:20180130',
     )
 
     compile files(

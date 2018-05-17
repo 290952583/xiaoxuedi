@@ -7,6 +7,7 @@ package com.xiaoxuedi.jpush;
  * @company
  * @project xiaoxuedi
  * @date 2018-01-26 11:00
+ *
  **/
 public interface JPushCallback {
 

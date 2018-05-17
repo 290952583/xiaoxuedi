@@ -20,4 +20,5 @@ public class JpushProperties {
     private String JpushAppKey;
     // 极光推送AppSecret
     private String JpushAppSecret;
+
 }
