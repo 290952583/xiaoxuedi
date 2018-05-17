@@ -35,7 +35,7 @@ public class WxPayNotifyServlet extends HttpServlet {
             //valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
             params.put(name, valueStr);
         }
-
+        //微信成功逻辑处理
 
         }
 }
