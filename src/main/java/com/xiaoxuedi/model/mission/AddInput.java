@@ -1,7 +1,7 @@
 package com.xiaoxuedi.model.mission;
 
-import com.xiaoxuedi.entity.Mission;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.MissionEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.ModelToEntity;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Validated
-public class AddInput implements ModelToEntity<Mission>
+public class AddInput implements ModelToEntity<MissionEntity>
 {
 	@NotNull
 	@Length(min = 4, max = 255)
@@ -31,14 +31,11 @@ public class AddInput implements ModelToEntity<Mission>
 	private int price;
 
 	@Override
-	public Mission toEntity()
-	{
-		Mission mission = new Mission();
-		mission.setTitle(getTitle());
-		mission.setDescription(getDescription());
-		mission.setAddress(getAddress());
+    public MissionEntity toEntity() {
+        MissionEntity mission = new MissionEntity();
+        mission.setAddress(getAddress());
 		mission.setPrice(getPrice());
-		mission.setUser(User.getUser());
-		return mission;
+        mission.setUser(UsersEntity.getUser());
+        return mission;
 	}
 }

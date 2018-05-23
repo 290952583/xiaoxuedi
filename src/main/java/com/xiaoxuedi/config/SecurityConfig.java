@@ -1,7 +1,7 @@
 package com.xiaoxuedi.config;
 
 import com.xiaoxuedi.controller.api.AbstractController;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.service.AccountService;
 import com.xiaoxuedi.service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			@Override
 			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 			{
-				User user = accountService.findUserByMobile(username);
+				UsersEntity user = accountService.findUserByMobile(username);
 				if (request.getParameter("password") != null)
 				{
 					if (!smsService.verificationSmsSession(username, request.getParameter("password")))

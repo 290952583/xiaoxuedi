@@ -1,6 +1,6 @@
 package com.xiaoxuedi.model.mission;
 
-import com.xiaoxuedi.entity.Mission;
+import com.xiaoxuedi.entity.MissionEntity;
 import com.xiaoxuedi.model.ModelUpdateEntity;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Validated
-public class UpdateInput implements ModelUpdateEntity<Mission>
+public class UpdateInput implements ModelUpdateEntity<MissionEntity>
 {
 	@NotNull
 	private String id;
@@ -33,10 +33,7 @@ public class UpdateInput implements ModelUpdateEntity<Mission>
 	private int price;
 
 	@Override
-	public void update(Mission mission)
-	{
-		mission.setTitle(title);
-		mission.setDescription(description);
+    public void update(MissionEntity mission) {
 		mission.setAddress(address);
 		mission.setPrice(price);
 	}

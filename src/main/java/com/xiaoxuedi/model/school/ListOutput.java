@@ -1,18 +1,17 @@
 package com.xiaoxuedi.model.school;
 
-import com.xiaoxuedi.entity.School;
+import com.xiaoxuedi.entity.SchoolEntity;
 import com.xiaoxuedi.model.ModelFromEntityList;
 import lombok.Data;
 
 @Data
-public class ListOutput implements ModelFromEntityList<School, ListOutput>
+public class ListOutput implements ModelFromEntityList<SchoolEntity, ListOutput>
 {
 	private String id;
 	private String school;
 
 	@Override
-	public ListOutput fromEntity(School school)
-	{
+    public ListOutput fromEntity(SchoolEntity school) {
 		id = school.getId();
 		this.school = school.getSchool();
 		return this;

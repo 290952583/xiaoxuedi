@@ -1,8 +1,9 @@
 package com.xiaoxuedi.service;
 
+import com.xiaoxuedi.entity.SchoolEntity;
 import com.xiaoxuedi.model.school.AddInput;
 import com.xiaoxuedi.model.school.ListOutput;
-import com.xiaoxuedi.entity.School;
+import com.xiaoxuedi.entity.SchoolEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.repository.SchoolRepository;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class SchoolService
 
     public Output<List<ListOutput>> list()
     {
-        List<School> schools = schoolRepository.findAll();
+        List<SchoolEntity> schools = schoolRepository.findAll();
         List<ListOutput> outputs = new ListOutput().fromEntityList(schools);
         return output(outputs);
     }

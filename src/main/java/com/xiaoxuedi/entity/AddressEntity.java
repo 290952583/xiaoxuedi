@@ -2,6 +2,7 @@ package com.xiaoxuedi.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 
@@ -32,5 +33,5 @@ public class AddressEntity implements BelongUser {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UsersEntity user;
 }

@@ -1,7 +1,7 @@
 package com.xiaoxuedi.service;
 
-import com.xiaoxuedi.entity.Address;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.AddressEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.address.AddInput;
 import com.xiaoxuedi.model.address.DeleteInput;
@@ -25,12 +25,12 @@ public class AddressService
 
     public Output add(AddInput input)
     {
-        int count = addressRepository.countByUser(User.getUser());
+        int count = addressRepository.countByUser(UsersEntity.getUser());
         if (count >= 5)
         {
             return outputMaxCount();
         }
-        Address address = addressRepository.save(input.toEntity());
+        AddressEntity address = addressRepository.save(input.toEntity());
         if (address == null)
         {
             return outputParameterError();
@@ -41,7 +41,7 @@ public class AddressService
 
     public Output delete(DeleteInput input)
     {
-        Address address = addressRepository.findOne(input.getId());
+        AddressEntity address = addressRepository.findOne(input.getId());
         if (address == null)
         {
             return outputParameterError();
@@ -56,7 +56,7 @@ public class AddressService
 
     public Output update(UpdateInput input)
     {
-        Address address = addressRepository.findOne(input.getId());
+        AddressEntity address = addressRepository.findOne(input.getId());
         if (address == null)
         {
             return outputParameterError();
@@ -72,7 +72,7 @@ public class AddressService
 
     public Output<List<ListOutput>> list()
     {
-        List<Address> addresses = addressRepository.findAllByUser(User.getUser());
+        List<AddressEntity> addresses = addressRepository.findAllByUser(UsersEntity.getUser());
         List<ListOutput> outputs = new ListOutput().fromEntityList(addresses);
         return output(outputs);
     }

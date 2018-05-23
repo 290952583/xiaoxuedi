@@ -1,6 +1,6 @@
 package com.xiaoxuedi.model.school;
 
-import com.xiaoxuedi.entity.School;
+import com.xiaoxuedi.entity.SchoolEntity;
 import com.xiaoxuedi.model.ModelToEntity;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -8,16 +8,15 @@ import org.springframework.validation.annotation.Validated;
 
 @Data
 @Validated
-public class AddInput implements ModelToEntity<School>
+public class AddInput implements ModelToEntity<SchoolEntity>
 {
 	@Length(min = 4, max = 255)
 	private String school;
 
 	@Override
-	public School toEntity()
-	{
-		School school = new School();
-		school.setSchool(this.school);
+    public SchoolEntity toEntity() {
+        SchoolEntity school = new SchoolEntity();
+        school.setSchool(this.school);
 		return school;
 	}
 }

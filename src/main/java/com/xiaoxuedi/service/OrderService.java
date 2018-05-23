@@ -5,8 +5,8 @@ import com.pingplusplus.model.Charge;
 import com.pingplusplus.model.Transfer;
 import com.xiaoxuedi.Application;
 import com.xiaoxuedi.config.PingxxProperties;
-import com.xiaoxuedi.entity.Order;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.OrdersEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.PageInput;
 import com.xiaoxuedi.model.order.BalanceOutput;
@@ -48,7 +48,7 @@ public class OrderService
         Pingpp.apiKey = pingxxProperties.getApiKey();
         Pingpp.privateKey = pingxxProperties.getPrivateKey();
 
-        Order order = new Order(User.getUser(), input.getAmount(), Order.Type.CHARGE);
+        OrdersEntity order = new OrdersEntity();
         order = orderRepository.save(order);
         if (order == null)
         {
@@ -84,18 +84,18 @@ public class OrderService
         Pingpp.apiKey = pingxxProperties.getApiKey();
         Pingpp.privateKey = pingxxProperties.getPrivateKey();
 
-        User user = userRepository.getCurrentUser();
+        UsersEntity user = userRepository.getCurrentUser();
         if (!user.isAuth())
         {
             return outputNotAuth();
         }
-        user.setBalance(user.getBalance() - input.getAmount());
-        if (user.getBalance() < 0)
-        {
-            return outputInsufficientBalance();
-        }
+//        user.setBalance(user.getBalance() - input.getAmount());
+//        if (user.getBalance() < 0)
+//        {
+//            return outputInsufficientBalance();
+//        }
         userRepository.save(user);
-        Order order = new Order(user, -input.getAmount(), Order.Type.TRANSFER);
+        OrdersEntity order = new OrdersEntity();
         order = orderRepository.save(order);
         if (order == null)
         {
@@ -135,46 +135,46 @@ public class OrderService
 
     public void chargeSucceeded(String id)
     {
-        Order order = orderRepository.findOne(id);
-        if (order == null || order.getType() != Order.Type.CHARGE)
+        OrdersEntity order = orderRepository.findOne(id);
+        if (order == null || order.getType() != OrdersEntity.Type.CHARGE)
         {
             return;
         }
-        order.setType(Order.Type.CHARGE_SUCCEEDED);
-        User user = order.getUser();
-        user.setBalance(user.getBalance() + order.getAmount());
+        order.setType(OrdersEntity.Type.CHARGE_SUCCEEDED);
+        UsersEntity user = order.getUser();
+//        user.setBalance(user.getBalance() + order.getAmount());
         userRepository.save(user);
         orderRepository.save(order);
     }
 
     public void transferSucceeded(String id)
     {
-        Order order = orderRepository.findOne(id);
-        if (order == null || order.getType() != Order.Type.TRANSFER)
+        OrdersEntity order = orderRepository.findOne(id);
+        if (order == null || order.getType() != OrdersEntity.Type.TRANSFER)
         {
             return;
         }
-        order.setType(Order.Type.TRANSFER_SUCCEEDED);
+        order.setType(OrdersEntity.Type.TRANSFER_SUCCEEDED);
         orderRepository.save(order);
     }
 
     public void transferFailed(String id)
     {
-        Order order = orderRepository.findOne(id);
-        if (order == null || order.getType() != Order.Type.TRANSFER)
+        OrdersEntity order = orderRepository.findOne(id);
+        if (order == null || order.getType() != OrdersEntity.Type.TRANSFER)
         {
             return;
         }
-        order.setType(Order.Type.TRANSFER_FAILED);
-        User user = order.getUser();
-        user.setBalance(user.getBalance() - order.getAmount());
+        order.setType(OrdersEntity.Type.TRANSFER_FAILED);
+        UsersEntity user = order.getUser();
+//        user.setBalance(user.getBalance() - order.getAmount());
         userRepository.save(user);
         orderRepository.save(order);
     }
 
     public Output<List<ListOutput>> list(PageInput input)
     {
-        List<Order> orders = orderRepository.findAllByUser(User.getUser(), input.getPageableSortByTime());
+        List<OrdersEntity> orders = orderRepository.findAllByUser(UsersEntity.getUser(), input.getPageableSortByTime());
         List<ListOutput> outputs = new ListOutput().fromEntityList(orders);
         return output(outputs);
     }

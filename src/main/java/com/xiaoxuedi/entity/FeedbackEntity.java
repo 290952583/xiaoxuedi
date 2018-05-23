@@ -2,6 +2,7 @@ package com.xiaoxuedi.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -16,7 +17,8 @@ public class FeedbackEntity implements BelongUser {
     @JoinColumn(name = "id")
     private String id;
 
-    @JoinColumn(name = "feedback")
+    @Column(nullable = false, length = 5120)
+    @Length(min = 10)
     private String feedback;
 
     @JoinColumn(name = "create_time")
@@ -27,6 +29,6 @@ public class FeedbackEntity implements BelongUser {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UsersEntity user;
 
 }

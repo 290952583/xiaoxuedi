@@ -1,31 +1,31 @@
 package com.xiaoxuedi.model.order;
 
-import com.xiaoxuedi.entity.Order;
+import com.xiaoxuedi.entity.OrdersEntity;
 import com.xiaoxuedi.model.ModelFromEntityList;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-public class ListOutput implements ModelFromEntityList<Order, ListOutput>
+public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
 {
 	private String id;
 	private Timestamp time;
 	private int amount;
 	private String missionId;
-	private Order.Type type;
+	private OrdersEntity.Type type;
 
 	@Override
-	public ListOutput fromEntity(Order order)
+	public ListOutput fromEntity(OrdersEntity order)
 	{
 		id = order.getId();
-		time = order.getTime();
-		amount = order.getAmount();
+		time = order.getCreateTime();
+		amount = order.getOrderAmount();
 		type = order.getType();
-		if (order.getMission() != null)
-		{
-			missionId = order.getMission().getId();
-		}
+//		if (order.getMission() != null)
+//		{
+//			missionId = order.getMission().getId();
+//		}
 		return this;
 	}
 }

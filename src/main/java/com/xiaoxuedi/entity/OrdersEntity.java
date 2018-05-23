@@ -17,7 +17,7 @@ public class OrdersEntity implements BelongUser {
     private String id;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UsersEntity user;
 
     @JoinColumn(name = "order_no")
     private String orderNo;
@@ -43,8 +43,9 @@ public class OrdersEntity implements BelongUser {
     @JoinColumn(name = "finish_time")
     private Timestamp finishTime;
 
-    @JoinColumn(name = "type")
-    private String type;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @JoinColumn(name = "pay_type")
     private String payType;
@@ -65,4 +66,13 @@ public class OrdersEntity implements BelongUser {
     private String status;
 
 
+    public enum Type {
+        CHARGE,
+        CHARGE_SUCCEEDED,
+        TRANSFER,
+        TRANSFER_SUCCEEDED,
+        TRANSFER_FAILED,
+        RELEASE,
+        FINISH,
+    }
 }

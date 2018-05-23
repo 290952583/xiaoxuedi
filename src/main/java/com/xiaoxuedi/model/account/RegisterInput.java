@@ -1,7 +1,7 @@
 package com.xiaoxuedi.model.account;
 
-import com.xiaoxuedi.entity.School;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.SchoolEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.ModelToEntity;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @Validated
-public class RegisterInput implements ModelToEntity<User>
+public class RegisterInput implements ModelToEntity<UsersEntity>
 {
 	@NotNull
 	private String username;
@@ -21,7 +21,7 @@ public class RegisterInput implements ModelToEntity<User>
 	private String mobile;
 
 	@NotNull
-	private char sex;
+    private String sex;
 
 	@NotNull
 	private String schoolId;
@@ -29,14 +29,13 @@ public class RegisterInput implements ModelToEntity<User>
 	private String invitationCode;
 
 	@Override
-	public User toEntity()
-	{
-		User user = new User();
-		user.setUsername(username);
+    public UsersEntity toEntity() {
+        UsersEntity user = new UsersEntity();
+        user.setUsername(username);
 		user.setMobile(mobile);
 		user.setSex(sex);
-		School school = new School();
-		school.setId(schoolId);
+        SchoolEntity school = new SchoolEntity();
+        school.setId(schoolId);
 		user.setSchool(school);
 		return user;
 	}

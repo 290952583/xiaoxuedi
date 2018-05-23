@@ -7,8 +7,8 @@ import com.taobao.api.domain.Userinfos;
 import com.taobao.api.request.OpenimUsersAddRequest;
 import com.taobao.api.request.OpenimUsersUpdateRequest;
 import com.xiaoxuedi.config.TaobaoProperties;
-import com.xiaoxuedi.entity.Image;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.ImageEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.account.*;
 import com.xiaoxuedi.repository.ImageRepository;
@@ -37,14 +37,14 @@ public class AccountService
     @Resource
     private TaobaoProperties taobaoProperties;
 
-    public User findUserByMobile(String mobile)
+    public UsersEntity findUserByMobile(String mobile)
     {
         return userRepository.findByMobile(mobile);
     }
 
     public Output<UserInfoOutput> register(RegisterInput input)
     {
-        User user = userRepository.findByMobile(input.getMobile());
+        UsersEntity user = userRepository.findByMobile(input.getMobile());
         if (user != null)
         {
             return outputUserExists();
@@ -83,24 +83,22 @@ public class AccountService
 
     public Output auth(AuthInput input) throws IOException
     {
-        User user = userRepository.getCurrentUser();
+        UsersEntity user = userRepository.getCurrentUser();
         user.setName(input.getName());
         user.setIdCard(input.getIdCard());
         // TODO 测试阶段直接通过
         // user.setAuthStatus(User.AuthStatus.WAIT);
-        user.setAuthStatus(User.AuthStatus.PASS);
+        user.setAuthStatus(UsersEntity.AuthStatus.PASS);
         userRepository.save(user);
 
-        Image image = new Image();
+        ImageEntity image = new ImageEntity();
 
         image.setName("Auth/" + user.getId() + "/1");
-        image.setData(input.getFile1()
-                .getBytes());
+        image.setImgurl(input.getImg());
         imageRepository.save(image);
 
         image.setName("Auth/" + user.getId() + "/2");
-        image.setData(input.getFile2()
-                .getBytes());
+        image.setImgurl(input.getImg());
         imageRepository.save(image);
 
         return outputOk();
@@ -108,7 +106,7 @@ public class AccountService
 
     public Output<AuthOutput> getAuthStatus(String id)
     {
-        User user = userRepository.findOne(id);
+        UsersEntity user = userRepository.findOne(id);
         if (user == null)
         {
             return outputParameterError();
@@ -119,7 +117,7 @@ public class AccountService
 
     public Output<UserInfoOutput> getUserInfo(String id)
     {
-        User user = userRepository.getOne(id);
+        UsersEntity user = userRepository.getOne(id);
         if (user == null)
         {
             return outputParameterError();
@@ -130,7 +128,7 @@ public class AccountService
 
     public Output<InvitationCodeOutput> getInvitationCode()
     {
-        User user = userRepository.getCurrentUser();
+        UsersEntity user = userRepository.getCurrentUser();
         if (user.getInvitationCode() == null)
         {
             user.setInvitationCode(randomSequence.getRandomUppercaseNumber());
@@ -140,21 +138,21 @@ public class AccountService
         return output(output);
     }
 
-    public byte[] getUserAvatar(String UserId)
+    public String getUserAvatar(String UserId)
     {
-        Image image = imageRepository.findOne("UserAvatar/" + UserId);
+        ImageEntity image = imageRepository.findOne("UserAvatar/" + UserId);
         if (image == null)
         {
             image = imageRepository.findOne("UserAvatar");
         }
-        return image.getData();
+        return image.getImgurl();
     }
 
-    public Output setUserAvatar(byte[] data)
+    public Output setUserAvatar(String imgurl)
     {
-        Image image = new Image();
-        image.setName("UserAvatar/" + User.getUserId());
-        image.setData(data);
+        ImageEntity image = new ImageEntity();
+        image.setName("UserAvatar/" + UsersEntity.getUserId());
+        image.setImgurl(imgurl);
         imageRepository.save(image);
 
         TaobaoClient client = new DefaultTaobaoClient(taobaoProperties.getUrl(), taobaoProperties.getAppKey(), taobaoProperties.getSecret());

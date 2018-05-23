@@ -1,6 +1,6 @@
 package com.xiaoxuedi.controller.api;
 
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.account.AuthInput;
 import com.xiaoxuedi.model.account.RegisterInput;
@@ -60,7 +60,7 @@ public class AccountController extends AbstractController
     @PostMapping("loginSuccess")
     public Output loginSuccess()
     {
-        return accountService.getUserInfo(User.getUserId());
+        return accountService.getUserInfo(UsersEntity.getUserId());
     }
 
     @PostMapping("logoutSuccess")
@@ -100,7 +100,7 @@ public class AccountController extends AbstractController
     {
         if (id == null)
         {
-            id = User.getUserId();
+            id = UsersEntity.getUserId();
         }
         return accountService.getAuthStatus(id);
     }
@@ -110,7 +110,7 @@ public class AccountController extends AbstractController
     {
         if (id == null)
         {
-            id = User.getUserId();
+            id = UsersEntity.getUserId();
         }
 
         return accountService.getUserInfo(id);
@@ -127,11 +127,12 @@ public class AccountController extends AbstractController
     {
         if (id == null)
         {
-            id = User.getUserId();
+            id = UsersEntity.getUserId();
         }
-        byte[] data = accountService.getUserAvatar(id);
-        response.setContentType("image/png");
-        response.getOutputStream().write(data);
+        String imgUrl = accountService.getUserAvatar(id);
+//        response.setContentType("image/png");
+//        response.getOutputStream().write(imgUrl);
+        //待修改
     }
 
     @PostMapping("setUserAvatar")
@@ -141,7 +142,8 @@ public class AccountController extends AbstractController
         {
             return outputParameterError();
         }
-        byte[] data = file.getBytes();
-        return accountService.setUserAvatar(data);
+
+        String imgUrl = "";//未设置值，待修改
+        return accountService.setUserAvatar(imgUrl);
     }
 }

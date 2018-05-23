@@ -23,7 +23,7 @@ public class UsersEntity implements UserDetails {
     private String id;
     @JoinColumn(nullable = false)
     @Enumerated(EnumType.STRING)
-    private User.AuthStatus authStatus = User.AuthStatus.NOT;
+    private UsersEntity.AuthStatus authStatus = UsersEntity.AuthStatus.NOT;
     @Transient
     private List<SimpleGrantedAuthority> authorities;
 
@@ -61,8 +61,9 @@ public class UsersEntity implements UserDetails {
     @JoinColumn(name = "username")
     private String username;
 
-    @JoinColumn(name = "school_id")
-    private String schoolId;
+    @ManyToOne
+    @JoinColumn(name = "school_id", nullable = false)
+    private SchoolEntity school;
 
     @JoinColumn(name = "photo")
     private String photo;
@@ -76,21 +77,21 @@ public class UsersEntity implements UserDetails {
 
     public static String getUserId() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof User) {
-            User user = (User) principal;
+        if (principal instanceof UsersEntity) {
+            UsersEntity user = (UsersEntity) principal;
             return user.getId();
         }
         return null;
     }
 
-    public static User getUser() {
-        User user = new User();
+    public static UsersEntity getUser() {
+        UsersEntity user = new UsersEntity();
         user.setId(getUserId());
         return user;
     }
 
     public boolean isAuth() {
-        return authStatus == User.AuthStatus.PASS;
+        return authStatus == UsersEntity.AuthStatus.PASS;
     }
 
     public Timestamp getCreateTime() {
@@ -139,6 +140,10 @@ public class UsersEntity implements UserDetails {
 
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
+    }
+
+    public UsersEntity fromEntity(UsersEntity user) {
+        return new UsersEntity();
     }
 
     public enum AuthStatus {

@@ -1,9 +1,9 @@
 package com.xiaoxuedi.service;
 
-import com.xiaoxuedi.entity.Mission;
-import com.xiaoxuedi.entity.Order;
-import com.xiaoxuedi.entity.School;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.MissionEntity;
+import com.xiaoxuedi.entity.OrdersEntity;
+import com.xiaoxuedi.entity.SchoolEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.mission.*;
 import com.xiaoxuedi.repository.MissionRepository;
@@ -32,20 +32,20 @@ public class MissionService
 
     public Output add(AddInput input)
     {
-        User user = userRepository.getCurrentUser();
-        if (user.getBalance() < input.getPrice())
-        {
-            return outputInsufficientBalance();
-        }
-        user.setBalance(user.getBalance() - input.getPrice());
+        UsersEntity user = userRepository.getCurrentUser();
+//        if (user.getBalance() < input.getPrice())
+//        {
+//            return outputInsufficientBalance();
+//        }
+//        user.setBalance(user.getBalance() - input.getPrice());
         userRepository.save(user);
-        Mission mission = missionRepository.save(input.toEntity());
+        MissionEntity mission = missionRepository.save(input.toEntity());
         if (mission == null)
         {
             return outputParameterError();
         }
 
-        Order order = new Order(user, -input.getPrice(), mission, Order.Type.RELEASE);
+        OrdersEntity order = new OrdersEntity();
         orderRepository.save(order);
 
         return outputOk();
@@ -53,7 +53,7 @@ public class MissionService
 
     public Output delete(DeleteInput input)
     {
-        Mission mission = missionRepository.findOne(input.getId());
+        MissionEntity mission = missionRepository.findOne(input.getId());
         if (mission == null)
         {
             return outputParameterError();
@@ -62,13 +62,13 @@ public class MissionService
         {
             return outputNotBelong();
         }
-        if (mission.getStatus() != Mission.Status.WAIT)
+        if (mission.getStatus() != MissionEntity.Status.WAIT)
         {
             return outputMissionStatusError();
         }
 
-        User user = mission.getUser();
-        user.setBalance(user.getBalance() + mission.getPrice());
+        UsersEntity user = mission.getUser();
+//        user.setBalance(user.getBalance() + mission.getPrice());
         userRepository.save(user);
 
         orderRepository.deleteByUserAndMission(user, mission);
@@ -79,7 +79,7 @@ public class MissionService
 
     public Output update(UpdateInput input)
     {
-        Mission mission = missionRepository.findOne(input.getId());
+        MissionEntity mission = missionRepository.findOne(input.getId());
         if (mission == null)
         {
             return outputParameterError();
@@ -88,23 +88,23 @@ public class MissionService
         {
             return outputNotBelong();
         }
-        if (mission.getStatus() != Mission.Status.WAIT)
+        if (mission.getStatus() != MissionEntity.Status.WAIT)
         {
             return outputMissionStatusError();
         }
 
-        User user = mission.getUser();
-        user.setBalance(user.getBalance() + input.getPrice() - mission.getPrice());
-        if (user.getBalance() < 0)
-        {
-            return outputInsufficientBalance();
-        }
+        UsersEntity user = mission.getUser();
+//        user.setBalance(user.getBalance() + input.getPrice() - mission.getPrice());
+//        if (user.getBalance() < 0)
+//        {
+//            return outputInsufficientBalance();
+//        }
 
         input.update(mission);
         missionRepository.save(mission);
         userRepository.save(user);
-        Order order = orderRepository.findByUserAndMission(user, mission);
-        order.setAmount(-mission.getPrice());
+        OrdersEntity order = orderRepository.findByUserAndMission(user, mission);
+//        order.setAmount(-mission.getPrice());
         orderRepository.save(order);
 
         return outputOk();
@@ -112,7 +112,7 @@ public class MissionService
 
     public Output finish(FinishInput input)
     {
-        Mission mission = missionRepository.findOne(input.getId());
+        MissionEntity mission = missionRepository.findOne(input.getId());
         if (mission == null)
         {
             return outputParameterError();
@@ -121,17 +121,17 @@ public class MissionService
         {
             return outputNotBelong();
         }
-        if (mission.getStatus() != Mission.Status.PROCESSING)
+        if (mission.getStatus() != MissionEntity.Status.PROCESSING)
         {
             return outputMissionStatusError();
         }
-        mission.setStatus(Mission.Status.FINISH);
+        mission.setStatus(MissionEntity.Status.FINISH);
         missionRepository.save(mission);
 
-        User user = mission.getAcceptUser();
-        Order order = new Order(user, mission.getPrice(), mission, Order.Type.FINISH);
+        UsersEntity user = mission.getUser();
+        OrdersEntity order = new OrdersEntity();
         orderRepository.save(order);
-        user.setBalance(user.getBalance() + mission.getPrice());
+//        user.setBalance(user.getBalance() + mission.getPrice());
         userRepository.save(user);
 
         return outputOk();
@@ -139,50 +139,50 @@ public class MissionService
 
     public Output accept(AcceptInput input)
     {
-        User user = userRepository.getCurrentUser();
+        UsersEntity user = userRepository.getCurrentUser();
         if (!user.isAuth())
         {
             return outputNotAuth();
         }
-        Mission mission = missionRepository.findOne(input.getId());
+        MissionEntity mission = missionRepository.findOne(input.getId());
         if (mission == null)
         {
             return outputParameterError();
         }
-        if (mission.getStatus() != Mission.Status.WAIT)
+        if (mission.getStatus() != MissionEntity.Status.WAIT)
         {
             return outputMissionStatusError();
         }
-        mission.setStatus(Mission.Status.PROCESSING);
-        mission.setAcceptUser(user);
-        mission.setAcceptTime(new Timestamp(System.currentTimeMillis()));
+        mission.setStatus(MissionEntity.Status.PROCESSING);
+        mission.setUser(user);
+//        mission.setAcceptTime(new Timestamp(System.currentTimeMillis()));
         missionRepository.save(mission);
         return outputOk();
     }
 
     public Output cancel(CancelInput input)
     {
-        Mission mission = missionRepository.findOne(input.getId());
+        MissionEntity mission = missionRepository.findOne(input.getId());
         if (mission == null)
         {
             return outputParameterError();
         }
-        if (!mission.getAcceptUser().getId().equals(User.getUserId()))
+        if (!mission.getUser().getId().equals(UsersEntity.getUserId()))
         {
             return outputNotBelong();
         }
-        if (mission.getStatus() != Mission.Status.PROCESSING)
+        if (mission.getStatus() != MissionEntity.Status.PROCESSING)
         {
             return outputMissionStatusError();
         }
-        mission.setStatus(Mission.Status.CANCEL);
+        mission.setStatus(MissionEntity.Status.CANCEL);
         missionRepository.save(mission);
         return outputOk();
     }
 
     public Output acceptCancel(AcceptCancelInput input)
     {
-        Mission mission = missionRepository.findOne(input.getId());
+        MissionEntity mission = missionRepository.findOne(input.getId());
         if (mission == null)
         {
             return outputParameterError();
@@ -191,37 +191,37 @@ public class MissionService
         {
             return outputNotBelong();
         }
-        if (mission.getStatus() != Mission.Status.CANCEL)
+        if (mission.getStatus() != MissionEntity.Status.CANCEL)
         {
             return outputMissionStatusError();
         }
-        mission.setStatus(Mission.Status.WAIT);
-        mission.setAcceptUser(null);
-        mission.setAcceptTime(null);
+        mission.setStatus(MissionEntity.Status.WAIT);
+        mission.setUser(null);
+//        mission.setAcceptTime(null);
         missionRepository.save(mission);
         return outputOk();
     }
 
     public Output<List<ListOutput>> myList(StatusesInput input)
     {
-        List<Mission> missions = missionRepository.findAllByUserAndStatusIn(User.getUser(), input.getStatuses(), input.getPageableSortByTime());
+        List<MissionEntity> missions = missionRepository.findAllByUserAndStatusIn(UsersEntity.getUser(), input.getStatuses(), input.getPageableSortByTime());
         List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
         return output(outputs);
     }
 
     public Output<List<ListOutput>> acceptList(StatusesInput input)
     {
-        List<Mission> missions = missionRepository.findAllByAcceptUserAndStatusIn(User.getUser(), input.getStatuses(), input.getPageableSortByTime());
+        List<MissionEntity> missions = missionRepository.findAllByAcceptUserAndStatusIn(UsersEntity.getUser(), input.getStatuses(), input.getPageableSortByTime());
         List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
         return output(outputs);
     }
 
     public Output<List<ListOutput>> nearby(NearbyInput input)
     {
-        School school = new School();
+        SchoolEntity school = new SchoolEntity();
         school.setId(input.getSchoolId());
-        Mission.Status[] statuses = {Mission.Status.WAIT, Mission.Status.PROCESSING};
-        List<Mission> missions = missionRepository.findAllByUserSchoolAndStatusIn(school, statuses, input.getPageableSortByTime());
+        MissionEntity.Status[] statuses = {MissionEntity.Status.WAIT, MissionEntity.Status.PROCESSING};
+        List<MissionEntity> missions = missionRepository.findAllByUserSchoolAndStatusIn(school, statuses, input.getPageableSortByTime());
         List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
         return output(outputs);
     }

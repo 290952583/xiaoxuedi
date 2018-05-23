@@ -1,6 +1,7 @@
 package com.xiaoxuedi.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,9 +17,10 @@ public class MissionEntity implements BelongUser {
     @GeneratedValue(generator = "uuid")
     @JoinColumn(name = "id")
     private String id;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UsersEntity user;
 
     @JoinColumn(name = "mission_no")
     private String missionNo;
@@ -29,10 +31,12 @@ public class MissionEntity implements BelongUser {
     @JoinColumn(name = "price")
     private int price;
 
-    @JoinColumn(name = "status")
-    private String status;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.WAIT;
 
     @JoinColumn(name = "create_time")
+    @CreationTimestamp
     private Timestamp createTime;
 
     @JoinColumn(name = "distribution_time")
@@ -44,8 +48,9 @@ public class MissionEntity implements BelongUser {
     @JoinColumn(name = "type")
     private String type;
 
+    @ManyToOne
     @JoinColumn(name = "accept_user_id")
-    private String acceptUserId;
+    private UsersEntity acceptUser;
 
     @JoinColumn(name = "school")
     private String school;
@@ -62,5 +67,10 @@ public class MissionEntity implements BelongUser {
     @JoinColumn(name = "coupon_amount")
     private BigDecimal couponAmount;
 
-
+    public enum Status {
+        WAIT,
+        PROCESSING,
+        CANCEL,
+        FINISH,
+    }
 }

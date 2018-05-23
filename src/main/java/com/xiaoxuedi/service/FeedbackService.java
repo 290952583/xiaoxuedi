@@ -1,7 +1,7 @@
 package com.xiaoxuedi.service;
 
 import com.xiaoxuedi.model.feedback.AddInput;
-import com.xiaoxuedi.entity.Feedback;
+import com.xiaoxuedi.entity.FeedbackEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class FeedbackService
 
     public Output add(AddInput input)
     {
-        Feedback feedback = feedbackRepository.save(input.toEntity());
+        FeedbackEntity feedback = feedbackRepository.save(input.toEntity());
         if (feedback == null)
         {
             return outputParameterError();

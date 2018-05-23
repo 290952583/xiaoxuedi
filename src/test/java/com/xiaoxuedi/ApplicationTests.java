@@ -1,7 +1,7 @@
 package com.xiaoxuedi;
 
-import com.xiaoxuedi.entity.School;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.SchoolEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.account.RegisterInput;
 import com.xiaoxuedi.model.school.AddInput;
 import com.xiaoxuedi.repository.SchoolRepository;
@@ -27,12 +27,12 @@ public class ApplicationTests extends Assert
 	public void testAccount()
 	{
 		AccountService service = Application.getBean(AccountService.class);
-		User user = service.findUserByMobile("18006352857");
-		if (user == null)
+        UsersEntity user = service.findUserByMobile("18006352857");
+        if (user == null)
 		{
 			SchoolRepository schoolRepository = Application.getBean(SchoolRepository.class);
-			List<School> list = schoolRepository.findAll();
-			if (list.size() == 0)
+            List<SchoolEntity> list = schoolRepository.findAll();
+            if (list.size() == 0)
 			{
 				SchoolService schoolService = Application.getBean(SchoolService.class);
 				AddInput input = new AddInput();
@@ -43,8 +43,8 @@ public class ApplicationTests extends Assert
 			RegisterInput input = new RegisterInput();
 			input.setMobile("18006352857");
 			input.setUsername("赵衍琛");
-			input.setSex('男');
-			input.setSchoolId(list.get(0).getId());
+            input.setSex("男");
+            input.setSchoolId(list.get(0).getId());
 			service.register(input);
 			user = service.findUserByMobile("18006352857");
 		}

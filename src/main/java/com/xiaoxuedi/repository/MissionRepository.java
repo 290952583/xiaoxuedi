@@ -1,8 +1,8 @@
 package com.xiaoxuedi.repository;
 
-import com.xiaoxuedi.entity.Mission;
-import com.xiaoxuedi.entity.School;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.MissionEntity;
+import com.xiaoxuedi.entity.SchoolEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,11 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MissionRepository extends JpaRepository<Mission, String>
-{
-    List<Mission> findAllByUserAndStatusIn(User user, Mission.Status[] status, Pageable pageable);
+public interface MissionRepository extends JpaRepository<MissionEntity, String> {
+    List<MissionEntity> findAllByUserAndStatusIn(UsersEntity user, MissionEntity.Status[] status, Pageable pageable);
 
-    List<Mission> findAllByAcceptUserAndStatusIn(User user, Mission.Status[] status, Pageable pageable);
+    List<MissionEntity> findAllByAcceptUserAndStatusIn(UsersEntity user, MissionEntity.Status[] status, Pageable pageable);
 
-    List<Mission> findAllByUserSchoolAndStatusIn(School school, Mission.Status[] status, Pageable pageable);
+    List<MissionEntity> findAllByUserSchoolAndStatusIn(SchoolEntity school, MissionEntity.Status[] status, Pageable pageable);
 }

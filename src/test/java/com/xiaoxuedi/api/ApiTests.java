@@ -3,7 +3,7 @@ package com.xiaoxuedi.api;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import com.xiaoxuedi.api.service.*;
-import com.xiaoxuedi.entity.Mission;
+import com.xiaoxuedi.entity.MissionEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.address.AddInput;
 import com.xiaoxuedi.model.address.DeleteInput;
@@ -127,11 +127,11 @@ public class ApiTests extends Assert
 
         // 查询
         Output<List<com.xiaoxuedi.model.mission.ListOutput>> listOutput =
-                service.acceptList(new Mission.Status[]{Mission.Status.WAIT}, 0).execute().body();
+                service.acceptList(new MissionEntity.Status[]{MissionEntity.Status.WAIT}, 0).execute().body();
         assertEquals(listOutput.getCodeInfo(), Output.Code.OK);
         listOutput = service.nearby("0", 0).execute().body();
         assertEquals(listOutput.getCodeInfo(), Output.Code.OK);
-        listOutput = service.myList(new Mission.Status[]{Mission.Status.WAIT}, 0).execute().body();
+        listOutput = service.myList(new MissionEntity.Status[]{MissionEntity.Status.WAIT}, 0).execute().body();
         assertEquals(listOutput.getCodeInfo(), Output.Code.OK);
 
         // 删除
@@ -141,7 +141,7 @@ public class ApiTests extends Assert
         assertEquals(output.getCodeInfo(), Output.Code.OK);
 
 
-        listOutput = service.myList(new Mission.Status[]{Mission.Status.WAIT}, 0).execute().body();
+        listOutput = service.myList(new MissionEntity.Status[]{MissionEntity.Status.WAIT}, 0).execute().body();
         assertEquals(listOutput.getCodeInfo(), Output.Code.OK);
         com.xiaoxuedi.model.mission.ListOutput mission = listOutput.getData().get(0);
 

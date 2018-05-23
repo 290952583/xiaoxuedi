@@ -1,24 +1,24 @@
 package com.xiaoxuedi.model.account;
 
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.SchoolEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.ModelFromEntity;
 import lombok.Data;
 
 @Data
-public class UserInfoOutput implements ModelFromEntity<User, UserInfoOutput>
+public class UserInfoOutput implements ModelFromEntity<UsersEntity, UserInfoOutput>
 {
 	private String id;
 	private String username;
 	private String mobile;
 	private String idCard;
 	private String name;
-	private char sex;
-	private User.AuthStatus authStatus;
-	private School school;
+    private String sex;
+    private UsersEntity.AuthStatus authStatus;
+    private School school;
 
 	@Override
-	public UserInfoOutput fromEntity(User user)
-	{
+    public UserInfoOutput fromEntity(UsersEntity user) {
 		id = user.getId();
 		username = user.getUsername();
 		mobile = user.getMobile();
@@ -31,14 +31,12 @@ public class UserInfoOutput implements ModelFromEntity<User, UserInfoOutput>
 	}
 
 	@Data
-	public static class School implements ModelFromEntity<com.xiaoxuedi.entity.School, School>
-	{
+    public static class School implements ModelFromEntity<SchoolEntity, School> {
 		private String id;
 		private String school;
 
 		@Override
-		public School fromEntity(com.xiaoxuedi.entity.School school)
-		{
+        public School fromEntity(SchoolEntity school) {
 			this.id = school.getId();
 			this.school = school.getSchool();
 			return this;

@@ -1,7 +1,7 @@
 package com.xiaoxuedi.model.feedback;
 
-import com.xiaoxuedi.entity.Feedback;
-import com.xiaoxuedi.entity.User;
+import com.xiaoxuedi.entity.FeedbackEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.ModelToEntity;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -11,18 +11,17 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Validated
-public class AddInput implements ModelToEntity<Feedback>
+public class AddInput implements ModelToEntity<FeedbackEntity>
 {
 	@NotNull
 	@Length(min = 10, max = 5120)
 	private String feedback;
 
 	@Override
-	public Feedback toEntity()
-	{
-		Feedback feedback = new Feedback();
-		feedback.setFeedback(getFeedback());
-		feedback.setUser(User.getUser());
-		return feedback;
+    public FeedbackEntity toEntity() {
+        FeedbackEntity feedback = new FeedbackEntity();
+        feedback.setFeedback(getFeedback());
+        feedback.setUser(UsersEntity.getUser());
+        return feedback;
 	}
 }

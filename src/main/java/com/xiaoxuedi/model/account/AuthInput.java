@@ -10,6 +10,7 @@ public class AuthInput
 {
     String name;
     String idCard;
+    String img;
     MultipartFile file1;
     MultipartFile file2;
 }

@@ -1,6 +1,7 @@
 package com.xiaoxuedi.model.mission;
 
-import com.xiaoxuedi.entity.Mission;
+import com.xiaoxuedi.entity.MissionEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.ModelFromEntity;
 import com.xiaoxuedi.model.ModelFromEntityList;
 import lombok.Data;
@@ -8,49 +9,46 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public class ListOutput implements ModelFromEntityList<Mission, ListOutput>
+public class ListOutput implements ModelFromEntityList<MissionEntity, ListOutput>
 {
 	private String id;
-	private User user;
+	private UsersEntity user;
 	private String title;
 	private String description;
 	private String address;
     private int price;
 	private Timestamp time;
-    private Mission.Status status;
-	private User acceptUser;
+	private MissionEntity.Status status;
+	private UsersEntity acceptUser;
 	private Timestamp acceptTime;
 
 	@Override
-	public ListOutput fromEntity(Mission mission)
+	public ListOutput fromEntity(MissionEntity mission)
 	{
 		id = mission.getId();
-		user = new User().fromEntity(mission.getUser());
-		title = mission.getTitle();
-		description = mission.getDescription();
+		user = new UsersEntity().fromEntity(mission.getUser());
 		address = mission.getAddress();
 		price = mission.getPrice();
-		time = mission.getTime();
+		time = mission.getCreateTime();
 		status = mission.getStatus();
-		if (mission.getAcceptUser() != null)
-		{
-			acceptUser = new User().fromEntity(mission.getAcceptUser());
-			acceptTime = mission.getAcceptTime();
+		if (mission.getUser() != null) {
+			acceptUser = new UsersEntity().fromEntity(mission.getUser());
+			acceptTime = mission.getCreateTime();
 		}
 		return this;
 	}
 
 	@Data
-	public class User implements ModelFromEntity<com.xiaoxuedi.entity.User, User>
+	public class User implements ModelFromEntity<UsersEntity, User>
 	{
 		private String id;
 		private String username;
-		private char sex;
+		private String sex;
 		private String mobile;
 		private String school;
 
 		@Override
-		public User fromEntity(com.xiaoxuedi.entity.User user)
+		public User fromEntity(UsersEntity user)
 		{
 			id = user.getId();
 			username = user.getUsername();

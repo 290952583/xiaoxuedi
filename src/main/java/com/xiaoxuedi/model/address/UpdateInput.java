@@ -1,6 +1,6 @@
 package com.xiaoxuedi.model.address;
 
-import com.xiaoxuedi.entity.Address;
+import com.xiaoxuedi.entity.AddressEntity;
 import com.xiaoxuedi.model.ModelUpdateEntity;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Validated
-public class UpdateInput implements ModelUpdateEntity<Address>
+public class UpdateInput implements ModelUpdateEntity<AddressEntity>
 {
 	@NotNull
 	private String id;
@@ -20,8 +20,7 @@ public class UpdateInput implements ModelUpdateEntity<Address>
 	private String address;
 
 	@Override
-	public void update(Address address)
-	{
+    public void update(AddressEntity address) {
 		address.setAddress(this.address);
 	}
 }
