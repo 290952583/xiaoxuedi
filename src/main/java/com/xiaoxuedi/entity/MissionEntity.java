@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
+@Table(name = "mission")
 public class MissionEntity implements BelongUser {
 
     @Id

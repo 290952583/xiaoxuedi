@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
+@Table(name = "pay_info")
 public class PayInfoEntity {
 
     @Id

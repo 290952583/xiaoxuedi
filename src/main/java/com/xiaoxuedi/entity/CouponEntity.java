@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
+@Table(name = "coupon")
 public class CouponEntity {
 
     @Id

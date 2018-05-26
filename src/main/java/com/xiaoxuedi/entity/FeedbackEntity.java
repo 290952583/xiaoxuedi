@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
+@Table(name = "feedback")
 public class FeedbackEntity implements BelongUser {
 
     @Id

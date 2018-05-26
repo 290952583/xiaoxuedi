@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "delivery_users")
 public class DeliveryUsersEntity {
 
     @Id

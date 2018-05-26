@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
+@Table(name = "order")
 public class OrdersEntity implements BelongUser {
 
     @Id

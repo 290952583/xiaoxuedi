@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "sys_users")
 public class SysUsersEntity {
 
     @Id

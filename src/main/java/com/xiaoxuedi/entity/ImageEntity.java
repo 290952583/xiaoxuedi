@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
+@Table(name = "image")
 public class ImageEntity {
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid")
