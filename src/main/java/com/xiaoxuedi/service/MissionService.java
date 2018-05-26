@@ -71,7 +71,7 @@ public class MissionService
 //        user.setBalance(user.getBalance() + mission.getPrice());
         userRepository.save(user);
 
-        orderRepository.deleteByUserAndMission(user, mission);
+//        orderRepository.deleteByUserAndMission(user);
         missionRepository.delete(mission);
 
         return outputOk();
@@ -103,9 +103,9 @@ public class MissionService
         input.update(mission);
         missionRepository.save(mission);
         userRepository.save(user);
-        OrdersEntity order = orderRepository.findByUserAndMission(user, mission);
+//        OrdersEntity order = orderRepository.findByUserAndMission(user);
 //        order.setAmount(-mission.getPrice());
-        orderRepository.save(order);
+//        orderRepository.save(order);
 
         return outputOk();
     }
