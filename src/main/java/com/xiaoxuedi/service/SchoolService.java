@@ -3,7 +3,6 @@ package com.xiaoxuedi.service;
 import com.xiaoxuedi.entity.SchoolEntity;
 import com.xiaoxuedi.model.school.AddInput;
 import com.xiaoxuedi.model.school.ListOutput;
-import com.xiaoxuedi.entity.SchoolEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.repository.SchoolRepository;
 import org.springframework.stereotype.Service;

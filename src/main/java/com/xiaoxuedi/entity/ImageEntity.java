@@ -23,7 +23,7 @@ public class ImageEntity {
     private String imgurl;
 
     @JoinColumn(name = "create_time")
-    private Timestamp createTime;
+    private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
 
 }

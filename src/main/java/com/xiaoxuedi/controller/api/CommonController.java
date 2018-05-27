@@ -1,6 +1,7 @@
 package com.xiaoxuedi.controller.api;
 
 import com.xiaoxuedi.model.common.SendSmsInput;
+import com.xiaoxuedi.service.DeliveryService;
 import com.xiaoxuedi.service.SchoolService;
 import com.xiaoxuedi.service.SmsService;
 import com.xiaoxuedi.model.Output;
@@ -19,6 +20,8 @@ public class CommonController extends AbstractController
     private SchoolService schoolService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private DeliveryService deliveryService;
 
     @PostMapping("sendSms")
     public Output sendSms(@Valid @RequestBody SendSmsInput input)
@@ -30,6 +33,12 @@ public class CommonController extends AbstractController
     public Output school()
     {
         return schoolService.list();
+    }
+
+    @GetMapping("delivery")
+    public Output delivery()
+    {
+        return deliveryService.list();
     }
 
     @GetMapping("testLogin")
