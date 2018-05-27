@@ -15,6 +15,11 @@ public class MissionController extends AbstractController
     @Autowired
     private MissionService missionService;
 
+    /**
+     * 新增代取快递任务
+     * @param input
+     * @return
+     */
     @PostMapping("add")
     public Output add(@Valid @RequestBody AddInput input)
     {

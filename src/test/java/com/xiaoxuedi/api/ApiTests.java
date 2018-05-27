@@ -22,6 +22,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -116,10 +117,10 @@ public class ApiTests extends Assert
 
         // 添加
         com.xiaoxuedi.model.mission.AddInput addInput = new com.xiaoxuedi.model.mission.AddInput();
-        addInput.setTitle("测试标题");
-        addInput.setDescription("测试内容");
+        addInput.setSchool("学校");
+        addInput.setDelivery("快递公司");
         addInput.setAddress("地址");
-        addInput.setPrice(10000);
+        addInput.setPrice(new BigDecimal("100"));
         Output output = service.add(addInput).execute().body();
         assertEquals(output.getCodeInfo(), Output.Code.OK);
         output = service.add(addInput).execute().body();
@@ -150,7 +151,7 @@ public class ApiTests extends Assert
         updateInput.setAddress("地址二");
         updateInput.setDescription(mission.getDescription());
         updateInput.setId(mission.getId());
-        updateInput.setPrice(mission.getPrice() + 100);
+        updateInput.setPrice(new BigDecimal("100"));
         updateInput.setTitle(mission.getTitle());
         output = service.update(updateInput).execute().body();
         assertEquals(output.getCodeInfo(), Output.Code.OK);

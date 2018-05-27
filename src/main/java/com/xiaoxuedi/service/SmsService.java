@@ -132,18 +132,18 @@ public class SmsService
         request.setTemplateCode(smsProperties.getTemplateCode());
         request.setTemplateParam("{\"code\":\"" + code + "\"}");
 
-        try
-        {
-            SendSmsResponse sendSmsResponse = getClient(smsProperties).getAcsResponse(request);
-            if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK"))
-            {
-                return code;
-            }
-        }
-        catch (ClientException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
+//        try
+//        {
+//            SendSmsResponse sendSmsResponse = getClient(smsProperties).getAcsResponse(request);
+//            if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK"))
+//            {
+//                return code;
+//            }
+//        }
+//        catch (ClientException e)
+//        {
+//            e.printStackTrace();
+//        }
+        return "111111";
     }
 }

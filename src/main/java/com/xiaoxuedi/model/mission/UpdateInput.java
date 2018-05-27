@@ -6,6 +6,8 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -30,7 +32,7 @@ public class UpdateInput implements ModelUpdateEntity<MissionEntity>
 
 	@NotNull
 	@Min(0)
-	private int price;
+	private BigDecimal price;
 
 	@Override
     public void update(MissionEntity mission) {

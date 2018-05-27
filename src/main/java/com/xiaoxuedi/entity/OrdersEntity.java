@@ -4,6 +4,8 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Data
@@ -24,13 +26,19 @@ public class OrdersEntity implements BelongUser {
     private String orderNo;
 
     @JoinColumn(name = "order_amount")
-    private int orderAmount;
+    private BigDecimal orderAmount;
+    
+    @JoinColumn(name = "actual_amount")
+    private BigDecimal actualAmount;//实际金额
 
     @JoinColumn(name = "coupon_amount")
-    private Integer couponAmount;
+    private BigDecimal couponAmount;
+    
+    @JoinColumn(name = "coupon_id")
+    private String coupon_id;//优惠券id
 
     @JoinColumn(name = "delivery_amount")
-    private Integer deliveryAmount;
+    private BigDecimal deliveryAmount;
 
     @JoinColumn(name = "create_time")
     private Timestamp createTime;

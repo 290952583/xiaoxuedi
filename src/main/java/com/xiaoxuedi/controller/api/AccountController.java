@@ -146,4 +146,8 @@ public class AccountController extends AbstractController
         String imgUrl = "";//未设置值，待修改
         return accountService.setUserAvatar(imgUrl);
     }
+    
+    
+    
+    
 }

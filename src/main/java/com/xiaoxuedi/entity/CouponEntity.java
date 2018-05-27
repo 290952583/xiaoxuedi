@@ -28,7 +28,7 @@ public class CouponEntity {
     private BigDecimal amount;
 
     @JoinColumn(name = "full_amount_reduction")
-    private int fullAmountReduction;
+    private BigDecimal fullAmountReduction;
 
     @JoinColumn(name = "start_time")
     private Timestamp startTime;
@@ -37,7 +37,11 @@ public class CouponEntity {
     private Timestamp endTime;
 
     @JoinColumn(name = "status")
-    private String status;
+    private String status;//valid,有效，其他不可用
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UsersEntity user;
 
 
 }

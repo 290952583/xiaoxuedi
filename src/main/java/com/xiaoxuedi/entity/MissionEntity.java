@@ -30,7 +30,10 @@ public class MissionEntity implements BelongUser {
     private String address;
 
     @JoinColumn(name = "price")
-    private int price;
+    private BigDecimal price;
+    
+    @JoinColumn(name = "actual_amount")
+    private BigDecimal actualAmount;//实际金额
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -67,11 +70,14 @@ public class MissionEntity implements BelongUser {
 
     @JoinColumn(name = "coupon_amount")
     private BigDecimal couponAmount;
+    
+    @JoinColumn(name = "coupon_id")
+    private String coupon_id;//优惠券id
 
     public enum Status {
-        WAIT,
-        PROCESSING,
-        CANCEL,
-        FINISH,
+        WAIT,//等待
+        PROCESSING,//处理
+        CANCEL,//取消
+        FINISH,//完成
     }
 }

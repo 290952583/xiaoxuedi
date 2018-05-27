@@ -6,6 +6,7 @@ import com.xiaoxuedi.model.ModelFromEntity;
 import com.xiaoxuedi.model.ModelFromEntityList;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Data
@@ -16,7 +17,7 @@ public class ListOutput implements ModelFromEntityList<MissionEntity, ListOutput
 	private String title;
 	private String description;
 	private String address;
-    private int price;
+    private BigDecimal price;
 	private Timestamp time;
 	private MissionEntity.Status status;
 	private UsersEntity acceptUser;

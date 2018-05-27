@@ -4,6 +4,7 @@ import com.xiaoxuedi.entity.OrdersEntity;
 import com.xiaoxuedi.model.ModelFromEntityList;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Data
@@ -11,7 +12,7 @@ public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
 {
 	private String id;
 	private Timestamp time;
-	private int amount;
+	private BigDecimal amount;
 	private String missionId;
 	private OrdersEntity.Type type;
 

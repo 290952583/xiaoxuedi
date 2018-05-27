@@ -1,6 +1,7 @@
 package com.xiaoxuedi.controller.api;
 
 import com.xiaoxuedi.model.common.SendSmsInput;
+import com.xiaoxuedi.service.CouponService;
 import com.xiaoxuedi.service.DeliveryService;
 import com.xiaoxuedi.service.SchoolService;
 import com.xiaoxuedi.service.SmsService;
@@ -22,6 +23,8 @@ public class CommonController extends AbstractController
     private SmsService smsService;
     @Autowired
     private DeliveryService deliveryService;
+    @Autowired
+    private CouponService couponService;
 
     @PostMapping("sendSms")
     public Output sendSms(@Valid @RequestBody SendSmsInput input)
@@ -39,6 +42,17 @@ public class CommonController extends AbstractController
     public Output delivery()
     {
         return deliveryService.list();
+    }
+    
+    
+    /**
+     * 获取优惠价信息
+     * @return
+     */
+    @PostMapping("coupon")
+    public Output coupon()
+    {
+        return couponService.list();
     }
 
     @GetMapping("testLogin")
