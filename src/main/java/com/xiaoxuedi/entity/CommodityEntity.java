@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @Entity
 @Table(name = "commodity")
-public class CommodityEntity {
+public class CommodityEntity extends BaseEntity {
 
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid")
