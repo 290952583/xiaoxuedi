@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Data
 @Entity
 @Table(name = "mission")
-public class MissionEntity implements BelongUser {
+public class MissionEntity extends BaseEntity implements BelongUser {
 
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid")
