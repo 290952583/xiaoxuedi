@@ -3,6 +3,8 @@ package com.xiaoxuedi.entity;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import com.xiaoxuedi.entity.MissionEntity.Status;
+
 import javax.persistence.*;
 
 import java.math.BigDecimal;
@@ -62,17 +64,15 @@ public class OrdersEntity implements BelongUser {
     @JoinColumn(name = "address")
     private String address;
 
-    @JoinColumn(name = "business_id")
-    private String businessId;
-
     @JoinColumn(name = "accept_user_id")
     private String acceptUserId;
 
     @JoinColumn(name = "remark")
     private String remark;
 
-    @JoinColumn(name = "status")
-    private String status;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.WAIT;
 
 
     public enum Type {
@@ -83,5 +83,12 @@ public class OrdersEntity implements BelongUser {
         TRANSFER_FAILED,
         RELEASE,
         FINISH,
+    }
+    
+    public enum Status {
+        WAIT,//等待
+        PROCESSING,//处理
+        CANCEL,//取消
+        FINISH,//完成
     }
 }

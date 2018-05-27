@@ -19,7 +19,7 @@ public class PageInput
 
     public Pageable getPageableSortByTime()
     {
-        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "time");
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "create_time");
         return new PageRequest(page, size, new Sort(order));
     }
 }

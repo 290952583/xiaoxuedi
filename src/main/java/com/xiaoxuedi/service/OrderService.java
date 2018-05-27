@@ -12,6 +12,7 @@ import com.xiaoxuedi.model.PageInput;
 import com.xiaoxuedi.model.order.BalanceOutput;
 import com.xiaoxuedi.model.order.ChargeInput;
 import com.xiaoxuedi.model.order.ListOutput;
+import com.xiaoxuedi.model.order.StatusesInput;
 import com.xiaoxuedi.model.order.TransferInput;
 import com.xiaoxuedi.repository.OrderRepository;
 import com.xiaoxuedi.repository.UserRepository;
@@ -177,6 +178,18 @@ public class OrderService
         List<OrdersEntity> orders = orderRepository.findAllByUser(UsersEntity.getUser(), input.getPageableSortByTime());
         List<ListOutput> outputs = new ListOutput().fromEntityList(orders);
         return output(outputs);
+    }
+    
+    /**
+     * 根据状态查询订单
+     * @param input
+     * @return
+     */
+    public Output<List<ListOutput>> list(StatusesInput input)
+    {
+    	List<OrdersEntity> orders = orderRepository.findAllByUserAndStatusIn(UsersEntity.getUser(), input.getStatuses(), input.getPageableSortByTime());
+    	List<ListOutput> outputs = new ListOutput().fromEntityList(orders);
+    	return output(outputs);
     }
 
     private String getIp()

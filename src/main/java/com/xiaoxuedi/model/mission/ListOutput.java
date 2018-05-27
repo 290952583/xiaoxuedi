@@ -6,7 +6,6 @@ import com.xiaoxuedi.model.ModelFromEntity;
 import com.xiaoxuedi.model.ModelFromEntityList;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Data
@@ -14,27 +13,30 @@ public class ListOutput implements ModelFromEntityList<MissionEntity, ListOutput
 {
 	private String id;
 	private UsersEntity user;
-	private String title;
-	private String description;
-	private String address;
-    private BigDecimal price;
-	private Timestamp time;
-	private MissionEntity.Status status;
-	private UsersEntity acceptUser;
-	private Timestamp acceptTime;
+	private String address;//收货地址
+	private Timestamp createTime;//创建时间
+	private MissionEntity.Status status;//状态
+	private UsersEntity acceptUser;//接单员
+	private String distributionTime;//配送时间
+	private String school;//学校区域
+	private String getCode;//取见码
+	private String remark;//备注
 
 	@Override
 	public ListOutput fromEntity(MissionEntity mission)
 	{
-		id = mission.getId();
-		user = new UsersEntity().fromEntity(mission.getUser());
-		address = mission.getAddress();
-		price = mission.getPrice();
-		time = mission.getCreateTime();
-		status = mission.getStatus();
+		this.id = mission.getId();
+		this.user = new UsersEntity().fromEntity(mission.getUser());
+		this.address = mission.getAddress();
+		this.createTime = mission.getCreateTime();
+		this.status = mission.getStatus();
+		this.distributionTime=mission.getDistributionTime();
+		this.school = mission.getSchool();
+		this.getCode = mission.getGetCode();
+		this.remark = mission.getRemark();
+		
 		if (mission.getUser() != null) {
 			acceptUser = new UsersEntity().fromEntity(mission.getUser());
-			acceptTime = mission.getCreateTime();
 		}
 		return this;
 	}

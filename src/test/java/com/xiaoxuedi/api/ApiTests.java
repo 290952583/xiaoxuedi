@@ -149,10 +149,8 @@ public class ApiTests extends Assert
         // 修改
         com.xiaoxuedi.model.mission.UpdateInput updateInput = new com.xiaoxuedi.model.mission.UpdateInput();
         updateInput.setAddress("地址二");
-        updateInput.setDescription(mission.getDescription());
         updateInput.setId(mission.getId());
         updateInput.setPrice(new BigDecimal("100"));
-        updateInput.setTitle(mission.getTitle());
         output = service.update(updateInput).execute().body();
         assertEquals(output.getCodeInfo(), Output.Code.OK);
 

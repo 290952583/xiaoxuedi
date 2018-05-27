@@ -2,14 +2,13 @@ package com.xiaoxuedi.service;
 
 import com.xiaoxuedi.entity.CouponEntity;
 import com.xiaoxuedi.entity.MissionEntity;
-import com.xiaoxuedi.entity.OrdersEntity;
 import com.xiaoxuedi.entity.SchoolEntity;
 import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
+import com.xiaoxuedi.model.PageInput;
 import com.xiaoxuedi.model.mission.*;
 import com.xiaoxuedi.repository.CouponRepository;
 import com.xiaoxuedi.repository.MissionRepository;
-import com.xiaoxuedi.repository.OrderRepository;
 import com.xiaoxuedi.repository.UserRepository;
 import com.xiaoxuedi.util.OrderUtil;
 import com.xiaoxuedi.util.StringUtil;
@@ -247,6 +246,18 @@ public class MissionService
         return output(outputs);
     }
     
+    
+    /**
+     * 查询所有订单列表
+     * @param input
+     * @return
+     */
+    public Output<List<ListOutput>> list(PageInput input)
+    {
+        List<MissionEntity> missions = missionRepository.findAllByUser(UsersEntity.getUser(), input.getPageableSortByTime());
+        List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
+        return output(outputs);
+    }
     
     
 }
