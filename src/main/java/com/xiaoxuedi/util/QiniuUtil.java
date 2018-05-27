@@ -7,6 +7,7 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.xiaoxuedi.config.QiniuProperties;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -21,6 +22,7 @@ import java.util.UUID;
  * @Modified By:
  *
  */
+@Service
 public class QiniuUtil {
 
         @Resource
@@ -45,15 +47,16 @@ public class QiniuUtil {
          * @throws QiniuException
          */
     public String UploadFile(File file) throws QiniuException {
+//        QiniuProperties qiniuProperties = new QiniuProperties();
         String key = UUID.randomUUID().toString().replaceAll("-", "");
-            //构造一个带指定Zone对象的配置类
-            Configuration cfg = new Configuration(Zone.zone2());
-            //创建上传对象
-            UploadManager uploadManager = new UploadManager(cfg);
-            //密钥配置
-            Auth auth = Auth.create(qiniuProperties.getScope(), qiniuProperties.getUrl());
-            //上传文件
-            Response res = uploadManager.put(file, key, auth.uploadToken(qiniuProperties.getScope(), key));
+        //构造一个带指定Zone对象的配置类
+        Configuration cfg = new Configuration(Zone.zone2());
+        //创建上传对象
+        UploadManager uploadManager = new UploadManager(cfg);
+        //密钥配置
+        Auth auth = Auth.create(qiniuProperties.getAccess_key(), qiniuProperties.getSecret_key());
+        //上传文件
+        Response res = uploadManager.put(file, key, auth.uploadToken(qiniuProperties.getScope(), key));
         return key;
     }
 

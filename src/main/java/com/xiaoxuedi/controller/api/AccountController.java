@@ -7,6 +7,7 @@ import com.xiaoxuedi.model.account.RegisterInput;
 import com.xiaoxuedi.model.account.UserInfoOutput;
 import com.xiaoxuedi.service.AccountService;
 import com.xiaoxuedi.service.SmsService;
+import com.xiaoxuedi.util.QiniuUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 
 import static com.xiaoxuedi.model.Output.*;
@@ -28,6 +30,8 @@ public class AccountController extends AbstractController
     private AccountService accountService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private QiniuUtil qiniuUtil;
 
     /*@GetMapping("login")
     public Output login(@RequestParam(value = "reason", required = false) String reason)
@@ -172,7 +176,19 @@ public class AccountController extends AbstractController
             return outputParameterError();
         }
 
-        String imgUrl = "";//未设置值，待修改
+        File f = null;
+        try {
+            f=File.createTempFile("tmp", null);
+            file.transferTo(f);
+            f.deleteOnExit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        QiniuUtil qiniuUtil = new QiniuUtil();
+        String imgUrl = qiniuUtil.UploadFile(f);
+
+//        String imgUrl = "";//未设置值，待修改
         return accountService.setUserAvatar(imgUrl);
     }
     
