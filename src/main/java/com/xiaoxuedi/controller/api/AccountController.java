@@ -29,7 +29,7 @@ public class AccountController extends AbstractController
     @Autowired
     private SmsService smsService;
 
-    @GetMapping("login")
+    /*@GetMapping("login")
     public Output login(@RequestParam(value = "reason", required = false) String reason)
     {
         log.info("登录信息："+reason);
@@ -55,6 +55,35 @@ public class AccountController extends AbstractController
                 }
                 return outputNotLogin();
         }
+    }*/
+
+    @GetMapping("login")
+    public Output login(@RequestParam(value = "reason", required = false) String reason,
+                        @RequestParam(value = "username")String username)
+    {
+        log.info("登录信息："+reason);
+        if (reason == null || reason.isEmpty())
+        {
+            UsersEntity user = accountService.findUserByMobile(username);
+            if (user == null)
+            {
+                return outputNotRegister();
+            }
+            return outputNotLogin();
+        }
+
+        switch (reason.toLowerCase())
+        {
+            case "maxsessions":
+                return outputMaxSessions();
+            default:
+                UsersEntity user = accountService.findUserByMobile(username);
+                if (user == null)
+                {
+                    return outputNotRegister();
+                }
+                return outputNotLogin();
+        }
     }
 
     @PostMapping("loginSuccess")
@@ -72,7 +101,7 @@ public class AccountController extends AbstractController
     @PostMapping("register")
     public Output register(@Valid @RequestBody RegisterInput input, HttpSession seesion)
     {
-        seesion.setAttribute("verificationMobile", "18201265103");
+        seesion.setAttribute("verificationMobile", "18780662586");
         String mobile = smsService.getVerificationMobile();
         if (mobile == null || !mobile.equals(input.getMobile()))
         {

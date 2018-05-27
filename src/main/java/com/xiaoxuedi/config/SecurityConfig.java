@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			@Autowired
 			private HttpServletRequest request;
 
-			@Override
+			/*@Override
 			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 			{
 				UsersEntity user = accountService.findUserByMobile(username);
@@ -54,6 +54,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 					{
 						user.setPassword(request.getParameter("password"));
 					}
+				}
+				if (user == null)
+				{
+					throw new UsernameNotFoundException("UsernameNotFoundException");
+				}
+				String autoLoginPassword = AbstractController.getAutoLoginPassword();
+				if (autoLoginPassword != null)
+				{
+					user.setPassword("autoLogin");
+				}
+				return user;
+			}*/
+
+			/**
+			 * 重写登陆方法，为了减少成本改用通过账号密码进行登陆；
+			 * @param username
+			 * @return
+			 * @throws UsernameNotFoundException
+			 */
+			@Override
+			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+			{
+				UsersEntity user = accountService.findUserByMobile(username);
+				String password = request.getParameter("password");
+				if (password != null && !password.equalsIgnoreCase(user.getPassword()))
+				{
+					throw new UsernameNotFoundException("The username or password you've entered is incorrect");
 				}
 				if (user == null)
 				{

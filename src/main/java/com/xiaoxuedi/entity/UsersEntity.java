@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -32,7 +33,7 @@ public class UsersEntity implements UserDetails {
     private BigDecimal balance;
 
     @JoinColumn(name = "create_time")
-    private Timestamp createTime;
+    private Date createTime = new Date();
 
     @JoinColumn(name = "enabled")
     private boolean enabled = true;
@@ -46,14 +47,14 @@ public class UsersEntity implements UserDetails {
     @JoinColumn(name = "invitation_count")
     private int invitationCount;
 
-    @JoinColumn(name = "mobile")
+    @JoinColumn(name = "mobile", nullable = false)
     @Pattern(regexp = "^(13[0-9]|14[579]|15[0-3,5-9]|17[0135678]|18[0-9])\\d{8}$")
     private String mobile;
 
     @JoinColumn(name = "name")
     private String name;
 
-    @JoinColumn(name = "password")
+    @JoinColumn(name = "password", nullable = false)
     private String password;
 
     @JoinColumn(name = "sex")
@@ -95,13 +96,6 @@ public class UsersEntity implements UserDetails {
         return authStatus == UsersEntity.AuthStatus.PASS;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
 
     public boolean isEnabled() {
         return enabled;

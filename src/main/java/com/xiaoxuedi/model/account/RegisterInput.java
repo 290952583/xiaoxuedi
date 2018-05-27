@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.math.BigDecimal;
 
 @Data
 @Validated
@@ -15,6 +16,9 @@ public class RegisterInput implements ModelToEntity<UsersEntity>
 {
 	@NotNull
 	private String username;
+
+	@NotNull
+	private String password;
 
 	@NotNull
 	@Pattern(regexp = "^(13[0-9]|14[579]|15[0-3,5-9]|17[0135678]|18[0-9])\\d{8}$")
@@ -32,11 +36,13 @@ public class RegisterInput implements ModelToEntity<UsersEntity>
     public UsersEntity toEntity() {
         UsersEntity user = new UsersEntity();
         user.setUsername(username);
+        user.setPassword(password);
 		user.setMobile(mobile);
 		user.setSex(sex);
         SchoolEntity school = new SchoolEntity();
         school.setId(schoolId);
 		user.setSchool(school);
+		user.setBalance(new BigDecimal("0"));
 		return user;
 	}
 }
