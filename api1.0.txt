@@ -176,13 +176,7 @@
     }
     参数错误
     "code":203
-获取邀请码
-    /api/account/getInvitationCode get
-    Response
-    "data":{
-        "invitationCode":,  // 邀请码
-        "invitationCount":  // 邀请次数
-    }
+
 获取用户信息
     /api/account/getUserInfo get 获取自己的信息
     /api/account/getUserInfo/{id} get
@@ -219,6 +213,9 @@
     Request
     {
         "address":,     // 地址
+        "details":,     // 详情
+        "name":,     // 名字
+        "phone":,     // 手机号
     }
     Response
     成功时
@@ -240,242 +237,67 @@
     "code":203
     地址不属于当前用户
     "code":205
-修改地址
-    api/address/update post
-    Request
-    {
-        "id":,     //
-        "address":,     // 地址
-    }
-    Response
-    成功时
-    "code":0
-    参数错误
-    "code":203
-    地址不属于当前用户
-    "code":205
+
 地址列表
     api/address/list get
     Response
     成功时
     "data":[{
         "id",       //
-        "address",  // 地址
-    },...
+        "name",       //姓名
+        "phone",       //手机号
+         "address",  // 地址
+        "details",       //地址详情
+        "remark"       //备注
+       
+    },。。。
     ]
 
-发布任务
+发布代取快递任务
     api/mission/add post
     Request
     {
-        "title":,       // 标题
-        "description":, // 内容
-        "address":,     // 地址
-        "price":,       // 价格
+        "address":,       // 收货地址
+        "school":, //学校区域
+        "delivery":,     //快递公司
+        "distributionTime":,     // 配送时间	
+        "type":,     // 任务类型，代取快递（express）
+        "getCode":,     // 取件码
+        "coupon_id":,     // 红包id
+        "remark":,     // 备注
+        "price":,       // 任务费用
     }
     Response
     成功时
     "code":0
-    参数错误
-    "code":203
-    余额不足
-    "code":208
-删除WAIT中的任务
-    api/mission/delete post
-    Request
-    {
-        "id":,          // 任务id
-    }
-    Response
-    成功时
-    "code":0
-    参数错误
-    "code":203
-    任务不属于当前用户
-    "code":205
-    任务状态错误
-    "code":206
-修改WAIT中的任务
-    api/mission/update post
-    Request
-    {
-        "id":,          // 任务ID
-        "title":,       // 标题
-        "description":, // 内容
-        "address":,     // 地址
-        "price":,       // 价格
-    }
-    Response
-    成功时
-    "code":0
-    参数错误
-    "code":203
-    任务不属于当前用户
-    "code":205
-    任务状态错误
-    "code":206
-    余额不足
-    "code":208
-结束发布的任务
-    api/mission/finish post
-    Request
-    {
-        "id":,       //
-    }
-    Response
-    成功时
-    "code":0
-    参数错误
-    "code":203
-    任务不属于当前用户
-    "code":205
-    任务状态错误
-    "code":206
-接受任务
-    api/mission/accept post
-    Request
-    {
-        "id":,       //
-    }
-    Response
-    成功时
-    "code":0
-    参数错误
-    "code":203
-    任务状态错误
-    "code":206
-    未认证
-    "code":209
-取消任务
-    api/mission/cancel post
-    Request
-    {
-        "id":,       //
-    }
-    Response
-    成功时
-    "code":0
-    参数错误
-    "code":203
-    任务不属于当前用户
-    "code":205
-    任务状态错误
-    "code":206
-确认取消任务
-    api/mission/acceptCancel post
-    Request
-    {
-        "id":,       //
-    }
-    Response
-    成功时
-    "code":0
-    参数错误
-    "code":203
-    任务不属于当前用户
-    "code":205
-    任务状态错误
-    "code":206
-我发布的任务
-    api/mission/myList get
-    Request
-    {
-        "status":[...], // 任务状态
-        "page":,        // 页号 可为空
-    }
-    Response
-    "data":[{
-        "id":,          //
-        "user":{        // 发布者信息
-            "id":,
-            "username":,
-            "sex":,
-            "mobile":,
-            "school",
-        }
-        "title":,       //
-        "description":, //
-        "address":,     //
-        "price":,       //
-        "time":,        //
-        "status":,      //
-        "acceptTime":,  // 接单时间
-        "acceptUser":   // 格式参照发布者信息
-    }...]
-我接受的任务
-    api/mission/acceptList get
-    Request
-    {
-         "status":[...], // 任务状态
-        "page":,         // 页号 可为空
-    }
-    Response
-    格式参照发布的任务
-附近的任务
-    api/mission/nearby get
-    Request
-    {
-        "schoolId",:    // 学校ID
-        "page":,        // 页号 可为空
-    }
-    Response
-    格式参照发布的任务
-
-查询账户余额
-     api/order/balance get
-     Response
-     "data":{
-        "balance":,     // 余额
-     }
-
-充值
-    api/order/charge post
-    Request
-    {
-        "amount":,      // 充值金额
-        "channel":,     // 充值渠道 https://www.pingxx.com/api?language=Java#%E6%94%AF%E4%BB%98%E6%B8%A0%E9%81%93%E5%B1%9E%E6%80%A7%E5%80%BC
-    }
-    Response
-    成功时
-    "data":charge       // charge对象字符串
     参数错误
     "code":203
 
-提现/转账
-    api/order/transfer post
-    Request
-    {
-        "amount":,      // 金额
-        "channel":,     // 渠道 支付宝：alipay，银联：unionpay，微信公众号：wx_pub，通联：allinpay，京东：jdpay
-        "recipient":,   // 渠道为alipay时为收款人支付宝账号 渠道为wx_pub时为open_id 其它渠道不填
-        "name":,        // 收款人姓名
-        "cardNumber":,  // 渠道为unionpay/allinpay/jdpay时为收款人银行卡号或者存折号 其它渠道不填
-        "openBankCode":,// 渠道为unionpay/allinpay/jdpay时为开户银行编号 其它渠道不填 银行与编号对应关系https://www.pingxx.com/api#%E9%80%9A%E8%81%94%E4%BB%A3%E4%BB%98%E9%93%B6%E8%A1%8C%E7%BC%96%E5%8F%B7%E8%AF%B4%E6%98%8E
-    }
-    Response
-    成功时
-    "code":0
-    参数错误
-    "code":203
-    余额不足
-    "code":208
-    未认证
-    "code":209
 
-订单列表
+
+全部订单列表
     api/order/list get
     Request
     {
         "page":,        // 页号 可为空
     }
     Response
-    "data":[{
-        "id":,          // 订单id
-        "time":,        // 时间
-        "amount":,      // 金额
-        "missionId"     // 任务id
-        "type"          // 订单类型
-    }...]
+{
+  "code": 0,
+  "codeInfo": "OK",
+  "data": {
+    "mission": {
+      "code": 0,
+      "codeInfo": "OK",
+      "data": []
+    },
+    "order": {
+      "code": 0,
+      "codeInfo": "OK",
+      "data": []
+    }
+  }
+}
 
 意见反馈
     api/feedback/add post

@@ -3,8 +3,6 @@ package com.xiaoxuedi.entity;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.xiaoxuedi.entity.MissionEntity.Status;
-
 import javax.persistence.*;
 
 import java.math.BigDecimal;
@@ -13,7 +11,7 @@ import java.sql.Timestamp;
 @Data
 @Entity
 @Table(name = "orders")
-public class OrdersEntity implements BelongUser {
+public class OrdersEntity extends BaseEntity implements BelongUser {
 
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid")

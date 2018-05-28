@@ -8,6 +8,7 @@ import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.github.wxpay.sdk.WXPay;
+import com.xiaoxuedi.Application;
 import com.xiaoxuedi.config.AlipayProperties;
 import com.xiaoxuedi.config.WxPayProperties;
 import com.xiaoxuedi.model.Output;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,7 +94,7 @@ public class PayController extends AbstractController {
         data.put("device_info", "WEB");
         data.put("fee_type", "CNY");
         data.put("total_fee", input.getTotalAmount());
-        data.put("spbill_create_ip", "127.0.0.1");//用户端实际ip
+        data.put("spbill_create_ip", getIp());//用户端实际ip
         data.put("notify_url", wxPayProperties.getNotifyUrl());
         data.put("trade_type", "NATIVE");
         data.put("product_id", "12");
@@ -105,6 +108,34 @@ public class PayController extends AbstractController {
             e.printStackTrace();
         }
     return  Output.outputError();
+    }
+    
+    
+    
+    
+    
+    
+    private String getIp()
+    {
+        HttpServletRequest request = Application.getRequest();
+        if (request == null)
+        {
+            return "127.0.0.1";
+        }
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+        {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+        {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+        {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 
 }

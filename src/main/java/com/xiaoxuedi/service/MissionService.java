@@ -65,6 +65,8 @@ public class MissionService
     				}else {
     					mission.setActualAmount(new BigDecimal(0));//实际金额为0
     				}
+    				//删除红包
+    				couponRepository.delete(input.getCoupon_id());
     			}
     			   			
     		}
@@ -74,7 +76,7 @@ public class MissionService
         {
             return outputParameterError();
         }
-        return outputOk();
+        return output(mission);
     }
 
     public Output delete(DeleteInput input)
@@ -231,7 +233,7 @@ public class MissionService
 
     public Output<List<ListOutput>> acceptList(StatusesInput input)
     {
-        List<MissionEntity> missions = missionRepository.findAllByAcceptUserAndStatusIn(UsersEntity.getUser(), input.getStatuses(), input.getPageableSortByTime());
+        List<MissionEntity> missions = missionRepository.findAllByUserAndStatusIn(UsersEntity.getUser(), input.getStatuses(), input.getPageableSortByTime());
         List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
         return output(outputs);
     }
@@ -241,9 +243,9 @@ public class MissionService
         SchoolEntity school = new SchoolEntity();
         school.setId(input.getSchoolId());
         MissionEntity.Status[] statuses = {MissionEntity.Status.WAIT, MissionEntity.Status.PROCESSING};
-        List<MissionEntity> missions = missionRepository.findAllByUserSchoolAndStatusIn(school, statuses, input.getPageableSortByTime());
-        List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
-        return output(outputs);
+//        List<MissionEntity> missions = missionRepository.findAllByUserSchoolAndStatusIn(school, statuses, input.getPageableSortByTime());
+//        List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
+        return output(null);
     }
     
     

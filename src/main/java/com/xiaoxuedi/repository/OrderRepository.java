@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<OrdersEntity, String> {
+	
     List<OrdersEntity> findAllByUser(UsersEntity user, Pageable pageable);
     
     List<OrdersEntity> findAllByUserAndStatusIn(UsersEntity user, OrdersEntity.Status[] status, Pageable pageable);

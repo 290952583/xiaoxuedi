@@ -78,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			{
 				UsersEntity user = accountService.findUserByMobile(username);
 				String password = request.getParameter("password");
-				if (password != null && !password.equalsIgnoreCase(user.getPassword()))
+				if (user!=null&&password != null && !password.equalsIgnoreCase(user.getPassword()))
 				{
 					throw new UsernameNotFoundException("The username or password you've entered is incorrect");
 				}
