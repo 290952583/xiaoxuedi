@@ -71,6 +71,7 @@ public class MissionService
     			   			
     		}
     	}
+    	mission.setStatus(MissionEntity.Status.WAIT);//等待支付
         mission = missionRepository.save(mission);
         if (mission == null)
         {
@@ -115,12 +116,8 @@ public class MissionService
         {
             return outputMissionStatusError();
         }
-
-        UsersEntity user = mission.getUser();
-
         input.update(mission);
         missionRepository.save(mission);
-        userRepository.save(user);
         return outputOk();
     }
 
