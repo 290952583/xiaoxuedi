@@ -18,5 +18,7 @@ public class AppOrderInput {
     @NotNull
     private  String outTradeNo;//商户网站唯一订单号
 
+    private  String orderId;//订单或者任务id
+
     private  String storeId;//商户门店编号。该参数用于请求参数中以区分各门店，非必传项
 }

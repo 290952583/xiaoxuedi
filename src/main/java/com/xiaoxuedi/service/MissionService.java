@@ -95,11 +95,6 @@ public class MissionService
             return outputMissionStatusError();
         }
 
-        UsersEntity user = mission.getUser();
-//        user.setBalance(user.getBalance() + mission.getPrice());
-        userRepository.save(user);
-
-//        orderRepository.deleteByUserAndMission(user);
         missionRepository.delete(mission);
 
         return outputOk();
@@ -122,19 +117,10 @@ public class MissionService
         }
 
         UsersEntity user = mission.getUser();
-//        user.setBalance(user.getBalance() + input.getPrice() - mission.getPrice());
-//        if (user.getBalance() < 0)
-//        {
-//            return outputInsufficientBalance();
-//        }
 
         input.update(mission);
         missionRepository.save(mission);
         userRepository.save(user);
-//        OrdersEntity order = orderRepository.findByUserAndMission(user);
-//        order.setAmount(-mission.getPrice());
-//        orderRepository.save(order);
-
         return outputOk();
     }
 

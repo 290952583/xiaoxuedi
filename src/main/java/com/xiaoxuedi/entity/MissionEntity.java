@@ -78,6 +78,7 @@ public class MissionEntity extends BaseEntity implements BelongUser {
         WAIT,//等待
         PROCESSING,//处理
         CANCEL,//取消
+        SUCCESS,//成功
         FINISH,//完成
     }
 }

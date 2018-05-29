@@ -142,9 +142,6 @@ public class OrderService
             return;
         }
         order.setType(OrdersEntity.Type.CHARGE_SUCCEEDED);
-        UsersEntity user = order.getUser();
-//        user.setBalance(user.getBalance() + order.getAmount());
-        userRepository.save(user);
         orderRepository.save(order);
     }
 
@@ -167,11 +164,29 @@ public class OrderService
             return;
         }
         order.setType(OrdersEntity.Type.TRANSFER_FAILED);
-        UsersEntity user = order.getUser();
-//        user.setBalance(user.getBalance() - order.getAmount());
-        userRepository.save(user);
         orderRepository.save(order);
     }
+    
+    
+    
+    
+    /**
+     * 订单失败
+     * @param id
+     */
+    public void  ordersFailed(String id)
+    {
+        OrdersEntity order = orderRepository.findOne(id);
+        if (order == null || order.getType() != OrdersEntity.Type.TRANSFER)
+        {
+            return;
+        }
+        order.setType(OrdersEntity.Type.TRANSFER_FAILED);
+        orderRepository.save(order);
+    }
+    
+    
+    
 
     public Output<List<ListOutput>> list(PageInput input)
     {

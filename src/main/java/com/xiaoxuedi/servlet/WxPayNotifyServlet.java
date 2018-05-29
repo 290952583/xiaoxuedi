@@ -1,41 +1,75 @@
 package com.xiaoxuedi.servlet;
 
-import com.xiaoxuedi.Application;
+import com.xiaoxuedi.service.PayService;
+
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
-
-@WebServlet(name="wxpayNotify",urlPatterns="/servlet/wxpayNotify")
+@WebServlet(name = "wxpayNotify", urlPatterns = "/servlet/wxpayNotify")
+@Slf4j
 public class WxPayNotifyServlet extends HttpServlet {
 
-    protected void service(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        HttpServletRequest request = Application.getRequest();
+	/**
+	 * 微信支付异步通知逻辑处理
+	 */
+	private static final long serialVersionUID = 1L;
+	@Autowired
+	private PayService payService;
 
-        //获取wx过来反馈信息
-        Map<String,String> params = new HashMap<String,String>();
-        Map requestParams = request.getParameterMap();
-        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-            String name = (String) iter.next();
-            String[] values = (String[]) requestParams.get(name);
-            String valueStr = "";
-            for (int i = 0; i < values.length; i++) {
-                valueStr = (i == values.length - 1) ? valueStr + values[i]
-                        : valueStr + values[i] + ",";
-            }
-            //乱码解决，这段代码在出现乱码时使用。
-            //valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
-            params.put(name, valueStr);
-        }
-        //微信成功逻辑处理
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        }
+		String resXml = "";
+		log.info("进入wxPay异步通知");
+		String resultMsg = "";
+		// HttpServletRequest req = Application.getRequest();
+		try {
+			// 获取wx过来反馈信息
+			InputStream is = req.getInputStream();
+			// 将InputStream转换成String
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			try {
+				while ((line = reader.readLine()) != null) {
+					sb.append(line + "\n");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			resXml = sb.toString();
+			log.info(resXml);
+			resultMsg = payService.payBack(resXml);
+
+		} catch (Exception e) {
+			log.error("手机支付回调通知失败", e);
+			resultMsg = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>"
+					+ "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
+
+		} finally {
+			PrintWriter out = resp.getWriter();
+			out.write(resultMsg);
+			out.flush();
+			out.close();
+		}
+	}
+
 }

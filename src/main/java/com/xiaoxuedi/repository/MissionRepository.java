@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface MissionRepository extends JpaRepository<MissionEntity, String> {
 	
+	 MissionEntity findByMissionNo(String missionNo);
 	
     List<MissionEntity> findAllByUserAndStatusIn(UsersEntity user, MissionEntity.Status[] status, Pageable pageable);
 

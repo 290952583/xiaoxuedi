@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,6 +66,7 @@ public class PayController extends AbstractController {
         model.setTotalAmount(input.getTotalAmount());
         model.setProductCode("QUICK_MSECURITY_PAY");//销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
         model.setStoreId(input.getStoreId());
+        model.setPassbackParams(URLEncoder.encode(input.getOrderId()));//订单id
         request.setBizModel(model);
         request.setNotifyUrl(alipayProperties.getNotifyUrl());
         try {
@@ -93,11 +95,12 @@ public class PayController extends AbstractController {
         data.put("out_trade_no", input.getOutTradeNo());
         data.put("device_info", "WEB");
         data.put("fee_type", "CNY");
-        data.put("total_fee", input.getTotalAmount());
+        data.put("total_fee", Integer.parseInt(input.getTotalAmount())*100+"");//微信单位为分
         data.put("spbill_create_ip", getIp());//用户端实际ip
         data.put("notify_url", wxPayProperties.getNotifyUrl());
-        data.put("trade_type", "NATIVE");
+        data.put("trade_type", "APP");
         data.put("product_id", "12");
+        data.put("attach", input.getOrderId());//附件数据，订单id
         // data.put("time_expire", "20170112104120");
 
         try {
