@@ -105,7 +105,7 @@ public class AccountController extends AbstractController
     @PostMapping("register")
     public Output register(@Valid @RequestBody RegisterInput input, HttpSession seesion)
     {
-        seesion.setAttribute("verificationMobile", "18780662586");
+//        seesion.setAttribute("verificationMobile", "18780662586");
         String mobile = smsService.getVerificationMobile();
         if (mobile == null || !mobile.equals(input.getMobile()))
         {

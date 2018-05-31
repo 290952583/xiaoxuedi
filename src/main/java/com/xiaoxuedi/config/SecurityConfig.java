@@ -78,9 +78,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			{
 				UsersEntity user = accountService.findUserByMobile(username);
 				String password = request.getParameter("password");
+				String loginType = request.getParameter("loginType");//增加支持短信和密码验证
+				if("psd".equals(loginType)) {//密码验证登录
 				if (user!=null&&password != null && !password.equalsIgnoreCase(user.getPassword()))
 				{
 					throw new UsernameNotFoundException("The username or password you've entered is incorrect");
+				}
+				}else {//短信验证登录
+					if (request.getParameter("password") != null)
+					{
+						if (!smsService.verificationSmsSession(username, request.getParameter("password")))
+						{
+							throw new UsernameNotFoundException("UsernameNotFoundException");
+						}
+						if (user != null)
+						{
+							user.setPassword(request.getParameter("password"));
+						}
+					}
 				}
 				if (user == null)
 				{
