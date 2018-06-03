@@ -1,4 +1,4 @@
-group 'xiaoxuedi'
+group 'com.xiaoxuedi.service'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -40,10 +40,14 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-security',
             'org.springframework.boot:spring-boot-starter-validation',
             'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-devtools',
             'Pingplusplus:pingpp-java:2.+',
             'com.qiniu:qiniu-java-sdk:7.+',
             'cn.jpush.api:jpush-client:3.+',
             'org.json:json:20180130',
+            'org.springframework.boot:spring-boot-starter-thymeleaf',
+            'org.thymeleaf.extras:thymeleaf-extras-java8time',
+
     )
 
     compile files(

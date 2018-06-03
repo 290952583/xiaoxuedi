@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import com.xiaoxuedi.api.service.*;
 import com.xiaoxuedi.entity.MissionEntity;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.address.AddInput;
 import com.xiaoxuedi.model.address.DeleteInput;
@@ -223,5 +224,50 @@ public class ApiTests extends Assert
         QiniuUtil qiniuUtil = new QiniuUtil();
         String name = qiniuUtil.UploadFile(file);
         System.out.println("上传成功"+name);
+    }
+
+
+    @Test
+    public void test(){
+        List<UsersEntity> usersEntities = new ArrayList<UsersEntity>();
+
+        UsersEntity user1 = new UsersEntity();
+        user1.setId("114");
+        user1.setName("11114441");
+        usersEntities.add(user1);
+
+        user1 = new UsersEntity();
+        user1.setId("2dfa");
+        user1.setName("22222");
+        usersEntities.add(user1);
+
+
+        user1 = new UsersEntity();
+        user1.setId("31");
+        user1.setName("33333");
+        usersEntities.add(user1);
+
+        user1 = new UsersEntity();
+        user1.setId("2dfb");
+        user1.setName("222223232");
+        usersEntities.add(user1);
+
+        /*Collections.sort(usersEntities, new Comparator<String>(){
+
+            @Override
+            public int compare(String u1, String u2) {
+                return u1.compareTo(u2);
+            }
+
+        });*/
+
+//        usersEntities.sort((u1, u2) -> u1.getId().compareTo(u2.getId()));
+        Comparator<UsersEntity> c = (s1, s2) -> s1.getId().compareTo(s2.getId());
+        usersEntities.sort(c);
+//        Collections.sort(usersEntities, Comparator.comparing(UsersEntity::getId));
+        usersEntities.forEach(usersEntity -> {
+            System.out.println(usersEntity.getId());
+        });
+
     }
 }
