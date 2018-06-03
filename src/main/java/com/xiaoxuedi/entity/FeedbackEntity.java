@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -23,7 +24,7 @@ public class FeedbackEntity implements BelongUser {
     private String feedback;
 
     @JoinColumn(name = "create_time")
-    private Timestamp createTime;
+    private Timestamp createTime = Timestamp.valueOf(LocalDateTime.now());
 
     @JoinColumn(name = "type")
     private String type;

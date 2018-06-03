@@ -16,12 +16,13 @@ import com.xiaoxuedi.model.pay.AppOrderInput;
 import com.xiaoxuedi.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
+import javax.validation.Valid;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class PayController extends AbstractController {
      * @return
      */
     @PostMapping("alipayCreateOrder")
-    public Output alipayCreateOrder(AppOrderInput input){
+    public Output alipayCreateOrder(@Valid @RequestBody AppOrderInput input){
 
         String respOrderInfo="";
         //实例化客户端
@@ -88,7 +89,7 @@ public class PayController extends AbstractController {
      * @return
      */
     @PostMapping("wxCreateOrder")
-    public Output wxPayCreateOrder(AppOrderInput input) throws Exception {
+    public Output wxPayCreateOrder(@Valid @RequestBody AppOrderInput input) throws Exception {
         wxpay = new WXPay(wxPayProperties);
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("body", input.getBody());
