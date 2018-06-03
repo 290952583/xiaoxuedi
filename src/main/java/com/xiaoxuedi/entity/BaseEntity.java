@@ -3,10 +3,8 @@ package com.xiaoxuedi.entity;
 import lombok.Data;
 
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -28,5 +26,5 @@ public abstract class BaseEntity implements Serializable {
     private Date createTime = new Date();
 
     @Column(name = "delete_time", columnDefinition = "bigint(20) NOT NULL DEFAULT '0' COMMENT '删除标记 0：未删除；其他：删除'")
-    private Long deleteTime;
+    private Long deleteTime = 0L;
 }
