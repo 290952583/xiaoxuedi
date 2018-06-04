@@ -38,15 +38,15 @@ public class AddInput implements ModelToEntity<MissionEntity>
 	@Length(min = 2, max = 20)
 	private String type;//任务类型，代取快递（express）
 
-	@NotNull
-	@Length(min = 0, max = 30)
+//	@NotNull
+//	@Length(min = 0, max = 30)
 	private String getCode;//取件码
 	
-	@NotNull
-	@Length(min = 0, max = 255)
+//	@NotNull
+//	@Length(min = 0, max = 255)
 	private String coupon_id;//红包id
-	@NotNull
-	@Length(min = 0, max = 512)
+//	@NotNull
+//	@Length(min = 0, max = 512)
 	private String remark;//备注
 	@NotNull
 	@Min(0)

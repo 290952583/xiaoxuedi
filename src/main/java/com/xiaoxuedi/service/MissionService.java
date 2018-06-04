@@ -43,6 +43,7 @@ public class MissionService
      * @param input
      * @return
      */
+    @Transactional
     public Output add(AddInput input)
     {
         

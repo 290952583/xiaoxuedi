@@ -5,23 +5,36 @@ import com.pingplusplus.model.Charge;
 import com.pingplusplus.model.Transfer;
 import com.xiaoxuedi.Application;
 import com.xiaoxuedi.config.PingxxProperties;
+import com.xiaoxuedi.entity.CouponEntity;
+import com.xiaoxuedi.entity.OrderCommodityEntity;
 import com.xiaoxuedi.entity.OrdersEntity;
 import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.PageInput;
+import com.xiaoxuedi.model.order.AddOrderInput;
 import com.xiaoxuedi.model.order.BalanceOutput;
 import com.xiaoxuedi.model.order.ChargeInput;
 import com.xiaoxuedi.model.order.ListOutput;
+import com.xiaoxuedi.model.order.OrderCommodityInput;
 import com.xiaoxuedi.model.order.StatusesInput;
 import com.xiaoxuedi.model.order.TransferInput;
+import com.xiaoxuedi.repository.CouponRepository;
+import com.xiaoxuedi.repository.OrderCommodityRepository;
 import com.xiaoxuedi.repository.OrderRepository;
 import com.xiaoxuedi.repository.UserRepository;
+import com.xiaoxuedi.util.OrderUtil;
+import com.xiaoxuedi.util.StringUtil;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +48,76 @@ public class OrderService
     @Resource
     private OrderRepository orderRepository;
     @Resource
+    private OrderCommodityRepository orderCommodityRepository;
+    @Resource
+    private CouponRepository couponRepository;
+    @Resource
     private UserRepository userRepository;
     @Resource
     private PingxxProperties pingxxProperties;
 
+    
+    /**
+     * 订单新增接口
+     * @param input
+     * @return
+     */
+    @Transactional
+    public Output<String> add(AddOrderInput input)
+    {
+    	
+    	try
+    	{
+    		OrdersEntity order = input.toEntity();
+    		order.setOrderNo(OrderUtil.getOrderIdByUUId());//订单编号
+    		order.setCreateTime(new Timestamp(new Date().getTime()));//创建时间
+    		order.setUser(UsersEntity.getUser());
+    		//查询是否有红包可以使用
+        	if(!StringUtil.isEmpty(input.getCoupon_id())) {
+        		CouponEntity coupon = couponRepository.findOne(input.getCoupon_id());
+        		//判断是否存在，且，不失效，不过期，满足可用金额
+        		if(coupon!=null&&"valid".equals(coupon.getStatus())) {
+        			long nowDate = new Date().getTime();
+         			long endTime = coupon.getEndTime().getTime();
+        			if(endTime>nowDate&&order.getActualAmount().compareTo(coupon.getFullAmountReduction())<0) {//可用
+        				order.setCoupon_id(input.getCoupon_id());
+        				order.setCouponAmount(coupon.getAmount());
+        				if(order.getActualAmount().subtract(coupon.getAmount()).doubleValue()>0d) {
+        					order.setActualAmount(order.getActualAmount().subtract(coupon.getAmount()));//实际金额
+        				}else {
+        					order.setActualAmount(new BigDecimal(0));//实际金额为0
+        				}
+        				//删除红包
+        				couponRepository.delete(input.getCoupon_id());
+        			}
+        		}
+        	}
+        	order = orderRepository.save(order);
+        	if (order == null)
+        	{
+        		return outputParameterError();
+        	}
+    		List<OrderCommodityInput> list = input.getCommodity();
+    		for(OrderCommodityInput orderCommodityInput:list) {
+    			if(orderCommodityInput!=null) {
+    				OrderCommodityEntity orderCommodity = orderCommodityInput.toEntity();
+        			if(orderCommodity!=null) {
+        				orderCommodity.setOrderId(order.getId());
+        				orderCommodityRepository.save(orderCommodity);
+        			}
+    			}
+    		}
+    		
+        	
+    		return output(order.toString());
+    	}
+    	catch (Exception e)
+    	{
+    		TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+    		return outputParameterError();
+    	}
+    }
+    
     public Output<BalanceOutput> balance()
     {
         return output(new BalanceOutput().fromEntity(userRepository.getCurrentUser()));
