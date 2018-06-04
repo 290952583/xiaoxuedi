@@ -39,8 +39,7 @@ public class SmsService
 
     public Output sendSms(SendSmsInput input)
     {
-//        String code = send(input.getMobile());
-        String code = "111111";
+        String code = send(input.getMobile());
         if (code == null)
         {
             return outputParameterError();

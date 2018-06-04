@@ -41,6 +41,16 @@ public class UsersEntity implements UserDetails {
     @JoinColumn(name = "id_card")
     private String idCard;
 
+    @JoinColumn(name = "open_id")
+    private String openId;
+
+
+    @JoinColumn(name = "session_key ")
+    private String sessionKey ;
+
+    @JoinColumn(name = "third_session_key ")
+    private String thirdSessionKey ;
+
     @JoinColumn(name = "invitation_code")
     private String invitationCode;
 

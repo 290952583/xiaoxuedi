@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<UsersEntity, String> {
 	UsersEntity findByMobile(String mobile);
 
+	UsersEntity findByOpenId(String OpenId);
 	@Modifying
 	@Query("update UsersEntity set invitationCount = invitationCount + 1 where invitationCode = ?1")
 	void addInvitationCount(String code);
