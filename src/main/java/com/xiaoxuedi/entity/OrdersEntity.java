@@ -39,6 +39,9 @@ public class OrdersEntity extends BaseEntity implements BelongUser {
 
     @JoinColumn(name = "delivery_amount")
     private BigDecimal deliveryAmount;
+    
+    @JoinColumn(name = "pack_price")
+    private BigDecimal packPrice;//打包费用
 
     @JoinColumn(name = "create_time")
     private Timestamp createTime;
@@ -54,7 +57,7 @@ public class OrdersEntity extends BaseEntity implements BelongUser {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private Type type=Type.CHARGE;
 
     @JoinColumn(name = "pay_type")
     private String payType;

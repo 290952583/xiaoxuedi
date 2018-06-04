@@ -4,6 +4,7 @@ package com.xiaoxuedi.controller.api;
 import com.pingplusplus.model.*;
 import com.xiaoxuedi.Application;
 import com.xiaoxuedi.config.PingxxProperties;
+import com.xiaoxuedi.model.order.AddOrderInput;
 import com.xiaoxuedi.model.order.ChargeInput;
 import com.xiaoxuedi.model.order.ListOutput;
 import com.xiaoxuedi.model.order.StatusesInput;
@@ -38,12 +39,23 @@ public class OrderController extends AbstractController
     @Autowired
     private MissionService missionService;
 
-    @GetMapping("balance")
+   /* @GetMapping("balance")
     public Output balance()
     {
         return orderService.balance();
-    }
+    }*/
 
+    /**
+     * 新增早餐订单接口
+     * @param input
+     * @return
+     */
+    @PostMapping("add")
+    public Output add(@Valid @RequestBody AddOrderInput input)
+    {
+    	return orderService.add(input);
+    }
+    
     @PostMapping("charge")
     public Output charge(@Valid @RequestBody ChargeInput input)
     {
@@ -56,7 +68,7 @@ public class OrderController extends AbstractController
         return orderService.transfer(input);
     }
 
-    @PostMapping("webHooks")
+/*    @PostMapping("webHooks")
     public void webHooks(@RequestHeader("x-pingplusplus-signature") String signatureString, @RequestBody String body, HttpServletResponse response) throws Exception
     {
         byte[] signatureBytes = Base64.decodeBase64(signatureString);
@@ -107,7 +119,7 @@ public class OrderController extends AbstractController
             publicKey = keyFactory.generatePublic(spec);
         }
         return publicKey;
-    }
+    }*/
 
     /**
      * 查询所有订单

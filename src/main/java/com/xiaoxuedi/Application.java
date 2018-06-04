@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @SpringBootApplication
 @ServletComponentScan
+@EnableTransactionManagement
 public class Application extends SpringBootServletInitializer implements ApplicationContextAware
 {
 	public static void main(String[] args)

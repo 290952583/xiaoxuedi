@@ -28,6 +28,9 @@ public class CommodityEntity extends BaseEntity {
 
     @JoinColumn(name = "price")
     private BigDecimal price;
+    
+    @JoinColumn(name = "pack_price")
+    private BigDecimal packPrice;//打包费用
 
     @JoinColumn(name = "original_price")
     private BigDecimal originalPrice;
