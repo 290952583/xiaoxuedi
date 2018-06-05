@@ -46,10 +46,10 @@ public class UsersEntity implements UserDetails {
 
 
     @JoinColumn(name = "session_key ")
-    private String sessionKey ;
+    private String sessionKey;
 
     @JoinColumn(name = "third_session_key ")
-    private String thirdSessionKey ;
+    private String thirdSessionKey;
 
     @JoinColumn(name = "invitation_code")
     private String invitationCode;
@@ -99,6 +99,15 @@ public class UsersEntity implements UserDetails {
     public static UsersEntity getUser() {
         UsersEntity user = new UsersEntity();
         user.setId(getUserId());
+        return user;
+    }
+
+    public static UsersEntity getUser(String id) {
+        UsersEntity user = new UsersEntity();
+        if (id == null || id.isEmpty())
+            user.setId(getUserId());
+        else user.setId(id);
+
         return user;
     }
 

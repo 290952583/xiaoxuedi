@@ -59,11 +59,13 @@ public class AccountService {
 
             user.setSessionKey(input.getSessionKey());
             user.setThirdSessionKey(new StringBuffer(input.getSessionKey()).reverse().toString());
+            wxSessionOutput.setUserId(user.getId());
             userRepository.save(user);
             return output(wxSessionOutput);
         }
 
         user = userRepository.save(input.toEntity());
+        wxSessionOutput.setUserId(user.getId());
 
         //阿里云旺
         TaobaoClient client = new DefaultTaobaoClient(taobaoProperties.getUrl(), taobaoProperties.getAppKey(), taobaoProperties.getSecret());

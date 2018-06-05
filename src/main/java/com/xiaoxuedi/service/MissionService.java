@@ -7,6 +7,7 @@ import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.PageInput;
 import com.xiaoxuedi.model.mission.*;
+import com.xiaoxuedi.model.mission.wx.WxAddInput;
 import com.xiaoxuedi.repository.CouponRepository;
 import com.xiaoxuedi.repository.MissionRepository;
 import com.xiaoxuedi.repository.UserRepository;
@@ -80,6 +81,50 @@ public class MissionService
         }
         return output(mission);
     }
+
+    /**
+     * 代取快递任务处理
+     * @param input
+     * @return
+     */
+    @Transactional
+    public Output wxAdd(WxAddInput input)
+    {
+
+        MissionEntity mission =input.toEntity();
+        mission.setActualAmount(mission.getPrice());//实际金额
+        mission.setMissionNo(OrderUtil.getOrderIdByUUId());//任务编号，用于支付
+        mission.setCreateTime(new Timestamp(new Date().getTime()));//创建时间
+        //查询是否有红包可以使用
+        if(!StringUtil.isEmpty(input.getCoupon_id())) {
+            CouponEntity coupon = couponRepository.findOne(input.getCoupon_id());
+            //判断是否存在，且，不失效，不过期，满足可用金额
+            if(coupon!=null&&"valid".equals(coupon.getStatus())) {
+                long nowDate = new Date().getTime();
+                long endTime = coupon.getEndTime().getTime();
+                if(endTime>nowDate&&mission.getPrice().compareTo(coupon.getFullAmountReduction())<0) {//可用
+                    mission.setCoupon_id(input.getCoupon_id());
+                    mission.setCouponAmount(coupon.getAmount());
+                    if(mission.getPrice().subtract(coupon.getAmount()).doubleValue()>0d) {
+                        mission.setActualAmount(mission.getPrice().subtract(coupon.getAmount()));//实际金额
+                    }else {
+                        mission.setActualAmount(new BigDecimal(0));//实际金额为0
+                    }
+                    //删除红包
+                    couponRepository.delete(input.getCoupon_id());
+                }
+
+            }
+        }
+        mission.setStatus(MissionEntity.Status.WAIT);//等待支付
+        mission = missionRepository.save(mission);
+        if (mission == null)
+        {
+            return outputParameterError();
+        }
+        return output(mission);
+    }
+
 
     public Output delete(DeleteInput input)
     {

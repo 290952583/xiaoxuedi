@@ -35,4 +35,15 @@ public class CouponService {
 	        return output(outputs);
 	    }
 
+	/**
+	 * 查询红包列表
+	 * @return
+	 */
+	public Output<List<ListOutput>> wxCouponlist(String userId)
+	{
+		List<CouponEntity> coupon = couponRepository.findAllByUser(UsersEntity.getUser(userId));
+		List<ListOutput> outputs = new ListOutput().fromEntityList(coupon);
+		return output(outputs);
+	}
+
 }

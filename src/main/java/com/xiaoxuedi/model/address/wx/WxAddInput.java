@@ -1,4 +1,4 @@
-package com.xiaoxuedi.model.address;
+package com.xiaoxuedi.model.address.wx;
 
 import com.xiaoxuedi.entity.AddressEntity;
 import com.xiaoxuedi.entity.UsersEntity;
@@ -12,10 +12,12 @@ import java.util.Date;
 
 @Data
 @Validated
-public class AddInput implements ModelToEntity<AddressEntity>
+public class WxAddInput implements ModelToEntity<AddressEntity>
 {
-
     @NotNull
+    private String userid;
+
+	@NotNull
 	@Length(min = 2)
 	private String address;
 
@@ -35,12 +37,12 @@ public class AddInput implements ModelToEntity<AddressEntity>
     public AddressEntity toEntity() {
         AddressEntity address = new AddressEntity();
         address.setAddress(getAddress());
-        address.setUser(UsersEntity.getUser());
+        address.setUser(UsersEntity.getUser(userid));
         address.setName(getName());
         address.setPhone(getPhone());
         address.setDetails(getDetails());
-        address.setCreateBy(UsersEntity.getUser().getId());
-        address.setOpBy(UsersEntity.getUser().getId());
+        address.setCreateBy(userid);
+        address.setOpBy(userid);
         address.setCreateTime(new Date());
         address.setOpTime(new Date());
         address.setDeleteTime(0L);
