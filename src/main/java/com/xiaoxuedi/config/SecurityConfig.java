@@ -106,6 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 				{
 					user.setPassword("autoLogin");
 				}
+				user.setJsessionId(request.getSession().getId());
 				return user;
 			}
 		};

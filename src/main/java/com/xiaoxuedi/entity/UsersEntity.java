@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -69,6 +68,8 @@ public class UsersEntity implements UserDetails {
 
     @JoinColumn(name = "photo")
     private String photo;
+
+    private String jsessionId;
 
     @Transient
     private boolean accountNonExpired = true;

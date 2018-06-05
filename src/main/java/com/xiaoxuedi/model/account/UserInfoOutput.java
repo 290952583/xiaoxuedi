@@ -16,6 +16,7 @@ public class UserInfoOutput implements ModelFromEntity<UsersEntity, UserInfoOutp
     private String sex;
     private UsersEntity.AuthStatus authStatus;
     private School school;
+    private String jsessionId;
 
 	@Override
     public UserInfoOutput fromEntity(UsersEntity user) {
@@ -27,6 +28,7 @@ public class UserInfoOutput implements ModelFromEntity<UsersEntity, UserInfoOutp
 		sex = user.getSex();
 		authStatus = user.getAuthStatus();
 		school = new School().fromEntity(user.getSchool());
+		jsessionId = user.getJsessionId();
 		return this;
 	}
 
