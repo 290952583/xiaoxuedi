@@ -78,7 +78,7 @@ public class MissionService
         {
             return outputParameterError();
         }
-        return output(mission);
+        return output(mission.toString());
     }
 
     public Output delete(DeleteInput input)

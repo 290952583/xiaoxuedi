@@ -3,6 +3,8 @@ package com.xiaoxuedi.entity;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 
 @Data
@@ -47,16 +49,16 @@ public class BusinessUsersEntity {
     private Integer businessSum;
 
     @JoinColumn(name = "withdraw_account")
-    private String withdrawAccount;
+    private BigDecimal withdrawAccount;
 
     @JoinColumn(name = "withdraw_type")
     private String withdrawType;
 
     @JoinColumn(name = "starting_price")
-    private Integer startingPrice;
+    private BigDecimal startingPrice;
 
     @JoinColumn(name = "distribution_price")
-    private Integer distributionPrice;
+    private BigDecimal distributionPrice;
 
     @JoinColumn(name = "business_license")
     private String businessLicense;
