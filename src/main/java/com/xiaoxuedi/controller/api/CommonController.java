@@ -1,10 +1,7 @@
 package com.xiaoxuedi.controller.api;
 
 import com.xiaoxuedi.model.common.SendSmsInput;
-import com.xiaoxuedi.service.CouponService;
-import com.xiaoxuedi.service.DeliveryService;
-import com.xiaoxuedi.service.SchoolService;
-import com.xiaoxuedi.service.SmsService;
+import com.xiaoxuedi.service.*;
 import com.xiaoxuedi.model.Output;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +22,8 @@ public class CommonController extends AbstractController
     private DeliveryService deliveryService;
     @Autowired
     private CouponService couponService;
+    @Autowired
+    private SchoolRegionService schoolRegionService;
 
     @PostMapping("sendSms")
     public Output sendSms(@Valid @RequestBody SendSmsInput input)
@@ -37,6 +36,14 @@ public class CommonController extends AbstractController
     {
         return schoolService.list();
     }
+
+    @GetMapping({"getSchoolRegion", "getSchoolRegion/{id}"})
+    public Output getSchoolRegion(@PathVariable(value = "id", required = false) String id)
+    {
+
+        return schoolRegionService.list(id);
+    }
+
 
     @GetMapping("delivery")
     public Output delivery()

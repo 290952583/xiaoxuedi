@@ -17,6 +17,9 @@ public class CommodityEntity extends BaseEntity {
     @JoinColumn(name = "id")
     private String id;
 
+    @JoinColumn(name = "business_id")
+    public String businessId;
+    
     @JoinColumn(name = "type")
     private String type;
 

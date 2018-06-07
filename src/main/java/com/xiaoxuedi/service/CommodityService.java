@@ -29,4 +29,14 @@ public class CommodityService {
         List<ListOutput> outputs = new ListOutput().fromEntityList(commoditys);
         return output(outputs);
     }
+    /**
+     * 根据商户id查询所有商品信息列表（无分页）
+     * @return
+     */
+    public Output<List<ListOutput>> getListByBusinessId(String businessId)
+    {
+    	List<CommodityEntity> commoditys = commodityRepository.findAllByBusinessId(businessId);
+    	List<ListOutput> outputs = new ListOutput().fromEntityList(commoditys);
+    	return output(outputs);
+    }
 }

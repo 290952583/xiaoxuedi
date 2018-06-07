@@ -19,6 +19,7 @@ import com.xiaoxuedi.util.GenerateRandomSequence;
 import com.xiaoxuedi.util.Wxmini;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.GsonJsonParser;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -161,6 +162,11 @@ public class AccountService {
         UsersEntity user = userRepository.getOne(id);
         if (user == null) {
             return outputParameterError();
+        }
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UsersEntity) {
+            UsersEntity usersEntity = (UsersEntity) principal;
+            user.setJsessionId(usersEntity.getJsessionId());
         }
 
         return output(new UserInfoOutput().fromEntity(user));
