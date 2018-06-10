@@ -23,9 +23,9 @@ public class BusinessService {
      * 查询所有商户信息列表（无分页）
      * @return
      */
-    public Output<List<ListOutput>> list()
+    public Output<List<ListOutput>> list(String schoolId)
     {
-        List<BusinessUsersEntity> commoditys = businessUsersRepository.findAll();
+        List<BusinessUsersEntity> commoditys = businessUsersRepository.findAllBySchoolId(schoolId);
         List<ListOutput> outputs = new ListOutput().fromEntityList(commoditys);
         return output(outputs);
     }

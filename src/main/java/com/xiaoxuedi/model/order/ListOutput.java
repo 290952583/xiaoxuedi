@@ -1,8 +1,6 @@
 package com.xiaoxuedi.model.order;
 
 import com.xiaoxuedi.entity.OrdersEntity;
-import com.xiaoxuedi.entity.OrdersEntity.Status;
-import com.xiaoxuedi.entity.OrdersEntity.Type;
 import com.xiaoxuedi.model.ModelFromEntityList;
 import lombok.Data;
 
@@ -16,7 +14,7 @@ public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
 	private String orderNo;//订单号
 	private BigDecimal orderAmount;//订单金额
 	private BigDecimal actualAmount;//实际金额
-	private BigDecimal couponAmount;//优化金额
+	private BigDecimal couponAmount;//优惠金额
 	private BigDecimal deliveryAmount;//快递费
 	private Timestamp createTime;//下单时间
 	private Timestamp receiveTime;
