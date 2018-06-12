@@ -1,16 +1,14 @@
 package com.xiaoxuedi.model.order;
 
+import com.xiaoxuedi.entity.OrdersEntity;
+import com.xiaoxuedi.model.ModelToEntity;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
-import com.xiaoxuedi.entity.OrdersEntity;
-import com.xiaoxuedi.model.ModelToEntity;
-
-import java.math.BigDecimal;
-import java.util.List;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Validated
@@ -37,7 +35,7 @@ public class AddOrderInput implements ModelToEntity<OrdersEntity>
     private BigDecimal couponAmount;//优惠金额
     
 //	@NotNull
-    private String coupon_id;//优惠券id
+    private String couponId;//优惠券id
 
 
 
@@ -64,7 +62,7 @@ public class AddOrderInput implements ModelToEntity<OrdersEntity>
 		OrdersEntity order = new OrdersEntity();
 		order.setActualAmount(actualAmount);
 		order.setAddress(address);
-		order.setCoupon_id(coupon_id);
+		order.setCoupon_id(couponId);
 		order.setCouponAmount(couponAmount);
 		order.setDeliveryAmount(deliveryAmount);
 		order.setOrderAmount(orderAmount);
