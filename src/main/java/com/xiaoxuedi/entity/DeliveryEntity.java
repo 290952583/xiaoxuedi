@@ -14,16 +14,16 @@ public class DeliveryEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @GeneratedValue(generator = "uuid")
     @JoinColumn(name = "id")
-    private String id;
+    private String id;//id
 
     @JoinColumn(name = "name")
-    private String name;
+    private String name;//快递公司名称
 
     @JoinColumn(name = "phone")
-    private String phone;
+    private String phone;//电话
 
     @JoinColumn(name = "address")
-    private String address;
+    private String address;//地址
 
 
 }

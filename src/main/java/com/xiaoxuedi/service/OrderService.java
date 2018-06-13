@@ -16,6 +16,7 @@ import com.xiaoxuedi.model.order.BalanceOutput;
 import com.xiaoxuedi.model.order.ChargeInput;
 import com.xiaoxuedi.model.order.ListOutput;
 import com.xiaoxuedi.model.order.OrderCommodityInput;
+import com.xiaoxuedi.model.order.OrderCommodityListOutput;
 import com.xiaoxuedi.model.order.StatusesInput;
 import com.xiaoxuedi.model.order.TransferInput;
 import com.xiaoxuedi.repository.CouponRepository;
@@ -271,6 +272,11 @@ public class OrderService
     {
         List<OrdersEntity> orders = orderRepository.findAllByUser(UsersEntity.getUser(), input.getPageableSortByTime());
         List<ListOutput> outputs = new ListOutput().fromEntityList(orders);
+        for(ListOutput ordersEntity:outputs) {
+        	List<OrderCommodityEntity> commoditylist=orderCommodityRepository.findAllByOrderId(ordersEntity.getId());
+        	List<OrderCommodityListOutput> outputsCommodity=new OrderCommodityListOutput().fromEntityList(commoditylist);
+        	ordersEntity.setOrderCommodity(outputsCommodity);
+        }
         return output(outputs);
     }
     
@@ -282,7 +288,12 @@ public class OrderService
     public Output<List<ListOutput>> list(StatusesInput input)
     {
     	List<OrdersEntity> orders = orderRepository.findAllByUserAndStatusIn(UsersEntity.getUser(), input.getStatuses(), input.getPageableSortByTime());
-    	List<ListOutput> outputs = new ListOutput().fromEntityList(orders);
+    	 List<ListOutput> outputs = new ListOutput().fromEntityList(orders);
+         for(ListOutput ordersEntity:outputs) {
+         	List<OrderCommodityEntity> commoditylist=orderCommodityRepository.findAllByOrderId(ordersEntity.getId());
+         	List<OrderCommodityListOutput> outputsCommodity=new OrderCommodityListOutput().fromEntityList(commoditylist);
+         	ordersEntity.setOrderCommodity(outputsCommodity);
+         }
     	return output(outputs);
     }
 
