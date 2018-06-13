@@ -70,6 +70,12 @@ public class OrdersEntity extends BaseEntity implements BelongUser {
 
     @JoinColumn(name = "remark")
     private String remark;
+    
+    @JoinColumn(name = "business_name")
+    private String businessName;//店铺名称
+    
+    @JoinColumn(name = "business_id")
+    private String businessId;//店铺id
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

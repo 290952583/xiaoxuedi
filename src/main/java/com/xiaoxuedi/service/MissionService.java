@@ -79,7 +79,7 @@ public class MissionService
         {
             return outputParameterError();
         }
-        return output(mission.toString());
+        return output(mission);
     }
 
     /**

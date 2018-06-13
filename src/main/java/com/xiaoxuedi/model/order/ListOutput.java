@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
+
 
 @Data
 public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
@@ -24,6 +26,12 @@ public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
 	private String address;//地址
 	private String remark;//备注
 	private OrdersEntity.Status status;
+	
+	private List<OrderCommodityListOutput> orderCommodity;//订单商品
+	
+    private String businessName;//店铺名称
+    
+    private String businessId;//店铺id
 
 	@Override
 	public ListOutput fromEntity(OrdersEntity order)
@@ -42,6 +50,9 @@ public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
 		 this.address=order.getAddress();//地址
 		 this.remark=order.getRemark();//备注
 		 this.status=order.getStatus();
+		 this.businessName=order.getBusinessName();
+		 this.businessId=order.getBusinessId();
+		 
 		return this;
 	}
 }
