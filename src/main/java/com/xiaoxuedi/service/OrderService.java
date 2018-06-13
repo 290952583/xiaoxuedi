@@ -63,7 +63,7 @@ public class OrderService
      * @return
      */
     @Transactional
-    public Output<String> add(AddOrderInput input)
+    public Output<Object> add(AddOrderInput input)
     {
     	
     	try
@@ -109,7 +109,7 @@ public class OrderService
     		}
     		
         	
-    		return output(order.toString());
+    		return output(order);
     	}
     	catch (Exception e)
     	{
