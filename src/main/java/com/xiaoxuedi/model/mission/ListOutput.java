@@ -17,6 +17,7 @@ public class ListOutput implements ModelFromEntityList<MissionEntity, ListOutput
 	private String school;//学校区域
 	private String getCode;//取见码
 	private String remark;//备注
+	private String orderNo;//订单编号
 
 	@Override
 	public ListOutput fromEntity(MissionEntity mission)
@@ -29,6 +30,7 @@ public class ListOutput implements ModelFromEntityList<MissionEntity, ListOutput
 		this.school = mission.getSchool();
 		this.getCode = mission.getGetCode();
 		this.remark = mission.getRemark();
+		this.orderNo = mission.getMissionNo();
 		
 		return this;
 	}
