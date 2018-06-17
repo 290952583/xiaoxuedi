@@ -20,6 +20,7 @@ import com.xiaoxuedi.model.order.OrderCommodityListOutput;
 import com.xiaoxuedi.model.order.StatusesInput;
 import com.xiaoxuedi.model.order.TransferInput;
 import com.xiaoxuedi.model.order.wx.WxAddOrderInput;
+import com.xiaoxuedi.model.order.wx.WxStatusesInput;
 import com.xiaoxuedi.repository.CouponRepository;
 import com.xiaoxuedi.repository.OrderCommodityRepository;
 import com.xiaoxuedi.repository.OrderRepository;
@@ -359,6 +360,22 @@ public class OrderService
     	return output(outputs);
     }
 
+    /**
+     * 根据状态查询订单
+     * @param input
+     * @return
+     */
+    public Output<List<ListOutput>> wxList(WxStatusesInput input)
+    {
+        List<OrdersEntity> orders = orderRepository.findAllByUserAndStatusIn(UsersEntity.getUser(input.getUserid()), input.getStatuses(), input.getPageableSortByTime());
+        List<ListOutput> outputs = new ListOutput().fromEntityList(orders);
+        for(ListOutput ordersEntity:outputs) {
+            List<OrderCommodityEntity> commoditylist=orderCommodityRepository.findAllByOrderId(ordersEntity.getId());
+            List<OrderCommodityListOutput> outputsCommodity=new OrderCommodityListOutput().fromEntityList(commoditylist);
+            ordersEntity.setOrderCommodity(outputsCommodity);
+        }
+        return output(outputs);
+    }
     private String getIp()
     {
         HttpServletRequest request = Application.getRequest();

@@ -8,11 +8,14 @@ import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.xiaoxuedi.Application;
 import com.xiaoxuedi.config.AlipayProperties;
 import com.xiaoxuedi.config.WxPayProperties;
+import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.pay.AppOrderInput;
+import com.xiaoxuedi.repository.UserRepository;
 import com.xiaoxuedi.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/pay")
+@RequestMapping("wxapi/pay")
 public class PayController extends AbstractController {
 
     @Autowired
@@ -41,7 +44,8 @@ public class PayController extends AbstractController {
     private WxPayProperties wxPayProperties;
 
     private WXPay wxpay;
-
+    @Resource
+    private UserRepository userRepository;
     /**
      * 支付宝支付下单
      * @param input
@@ -92,22 +96,35 @@ public class PayController extends AbstractController {
     public Output wxPayCreateOrder(@Valid @RequestBody AppOrderInput input) throws Exception {
         wxpay = new WXPay(wxPayProperties);
         HashMap<String, String> data = new HashMap<String, String>();
+        UsersEntity user = userRepository.getOne(input.getUserid());
+        data.put("openid",user.getOpenId());
         data.put("body", input.getBody());
         data.put("out_trade_no", input.getOutTradeNo());
-        data.put("device_info", "WEB");
+        data.put("device_info", "WX");
         data.put("fee_type", "CNY");
-        data.put("total_fee", Integer.parseInt(input.getTotalAmount())*100+"");//微信单位为分
-        data.put("spbill_create_ip", getIp());//用户端实际ip
+        data.put("total_fee", String.valueOf((int)(Float.parseFloat(input.getTotalAmount())*100)));//微信单位为分
+        data.put("spbill_create_ip", "127.0.0.1");//用户端实际ip
         data.put("notify_url", wxPayProperties.getNotifyUrl());
-        data.put("trade_type", "APP");
+        data.put("trade_type", "JSAPI");
         data.put("product_id", "12");
         data.put("attach", input.getOrderId());//附件数据，订单id
         // data.put("time_expire", "20170112104120");
 
         try {
             Map<String, String> r = wxpay.unifiedOrder(data);
-            System.out.println(r);
-            return  Output.output(r);
+            Map<String, String> signMap=new HashMap<>();
+            String time= String.valueOf(System.currentTimeMillis()*1000);
+            signMap.put("appId",r.get("appid"));
+            signMap.put("timeStamp",time);
+            signMap.put("nonceStr",r.get("nonce_str"));
+            signMap.put("package","prepay_id="+r.get("prepay_id"));
+            signMap.put("signType","MD5");
+
+            String signString=WXPayUtil.generateSignature(signMap,wxPayProperties.key);
+            signMap.put("paySign",signString);
+
+            System.out.println(signMap);
+            return  Output.output(signMap);
         } catch (Exception e) {
             e.printStackTrace();
         }

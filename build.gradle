@@ -55,6 +55,7 @@ dependencies {
             'libs/commons-logging-1.1.1.jar',
             'libs/alipay-sdk-java-3.0.0.jar',
             'libs/wxpay-sdk-0.0.3.jar',
+            'libs/bcprov-ext-jdk15on-159.jar'
     )
 
     providedCompile(

@@ -8,6 +8,7 @@ import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.PageInput;
 import com.xiaoxuedi.model.mission.*;
 import com.xiaoxuedi.model.mission.wx.WxAddInput;
+import com.xiaoxuedi.model.order.wx.WxStatusesInput;
 import com.xiaoxuedi.repository.CouponRepository;
 import com.xiaoxuedi.repository.MissionRepository;
 import com.xiaoxuedi.repository.UserRepository;
@@ -83,7 +84,7 @@ public class MissionService
     }
 
     /**
-     * 代取快递任务处理
+     * 小程序代取快递任务处理
      * @param input
      * @return
      */
@@ -289,6 +290,16 @@ public class MissionService
         List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
         return output(outputs);
     }
-    
+    /**
+     * 查询所有订单列表
+     * @param input
+     * @return
+     */
+    public Output<List<ListOutput>> wxList(WxStatusesInput input)
+    {
+        List<MissionEntity> missions = missionRepository.findAllByUser(UsersEntity.getUser(input.getUserid()), input.getPageableSortByTime());
+        List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
+        return output(outputs);
+    }
     
 }
