@@ -19,6 +19,7 @@ import com.xiaoxuedi.model.order.OrderCommodityInput;
 import com.xiaoxuedi.model.order.OrderCommodityListOutput;
 import com.xiaoxuedi.model.order.StatusesInput;
 import com.xiaoxuedi.model.order.TransferInput;
+import com.xiaoxuedi.model.order.wx.WxAddOrderInput;
 import com.xiaoxuedi.repository.CouponRepository;
 import com.xiaoxuedi.repository.OrderCommodityRepository;
 import com.xiaoxuedi.repository.OrderRepository;
@@ -118,7 +119,68 @@ public class OrderService
     		return outputParameterError();
     	}
     }
-    
+
+    /**
+     * 订单新增接口
+     * @param input
+     * @return
+     */
+    @Transactional
+    public Output<Object> wxAdd(WxAddOrderInput input)
+    {
+
+        try
+        {
+            OrdersEntity order = input.toEntity();
+            order.setOrderNo(OrderUtil.getOrderIdByUUId());//订单编号
+            order.setCreateTime(new Timestamp(new Date().getTime()));//创建时间
+            order.setUser(UsersEntity.getUser(input.getUserid()));
+            //查询是否有红包可以使用
+            if(!StringUtil.isEmpty(input.getCouponId())) {
+                CouponEntity coupon = couponRepository.findOne(input.getCouponId());
+                //判断是否存在，且，不失效，不过期，满足可用金额
+                if(coupon!=null&&"valid".equals(coupon.getStatus())) {
+                    long nowDate = new Date().getTime();
+                    long endTime = coupon.getEndTime().getTime();
+                    if(endTime>nowDate&&order.getActualAmount().compareTo(coupon.getFullAmountReduction())<0) {//可用
+                        order.setCoupon_id(input.getCouponId());
+                        order.setCouponAmount(coupon.getAmount());
+                        if(order.getActualAmount().subtract(coupon.getAmount()).doubleValue()>0d) {
+                            order.setActualAmount(order.getActualAmount().subtract(coupon.getAmount()));//实际金额
+                        }else {
+                            order.setActualAmount(new BigDecimal(0));//实际金额为0
+                        }
+                        //删除红包
+                        couponRepository.delete(input.getCouponId());
+                    }
+                }
+            }
+            order = orderRepository.save(order);
+            if (order == null)
+            {
+                return outputParameterError();
+            }
+            List<OrderCommodityInput> list = input.getCommodity();
+            for(OrderCommodityInput orderCommodityInput:list) {
+                if(orderCommodityInput!=null) {
+                    OrderCommodityEntity orderCommodity = orderCommodityInput.toEntity();
+                    if(orderCommodity!=null) {
+                        orderCommodity.setOrderId(order.getId());
+                        orderCommodityRepository.save(orderCommodity);
+                    }
+                }
+            }
+
+
+            return output(order);
+        }
+        catch (Exception e)
+        {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return outputParameterError();
+        }
+    }
+
     public Output<BalanceOutput> balance()
     {
         return output(new BalanceOutput().fromEntity(userRepository.getCurrentUser()));

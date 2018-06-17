@@ -23,7 +23,7 @@ public class WxAddInput implements ModelToEntity<MissionEntity>
 	private String address;//收货地址
 	
 	@NotNull
-	@Length(min = 4, max = 255)
+	@Length(min = 0, max = 255)
 	private String school;//学校区域
 
 	@NotNull

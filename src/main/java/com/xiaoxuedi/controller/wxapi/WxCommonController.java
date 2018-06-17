@@ -3,6 +3,7 @@ package com.xiaoxuedi.controller.wxapi;
 import com.xiaoxuedi.controller.api.AbstractController;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.common.SendSmsInput;
+import com.xiaoxuedi.model.coupon.wx.WxCouponInput;
 import com.xiaoxuedi.service.CouponService;
 import com.xiaoxuedi.service.DeliveryService;
 import com.xiaoxuedi.service.SchoolService;
@@ -51,9 +52,9 @@ public class WxCommonController extends AbstractController
      * @return
      */
     @PostMapping("coupon")
-    public Output coupon()
+    public Output coupon(@RequestBody WxCouponInput input)
     {
-        return couponService.list();
+        return couponService.wxCouponlist(input.getUserid());
     }
 
     @GetMapping("testLogin")
