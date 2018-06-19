@@ -57,7 +57,7 @@ public class AccountService {
         wxSessionOutput.setUnion_id((String) map.get("unionId"));
 
         if (user != null) {
-
+            user.setOpenId((String) map.get("openId"));
             user.setSessionKey(input.getSessionKey());
             user.setThirdSessionKey(new StringBuffer(input.getSessionKey()).reverse().toString());
             wxSessionOutput.setUserId(user.getId());
