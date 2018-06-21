@@ -12,6 +12,7 @@ import com.xiaoxuedi.model.account.wx.WxSessionInput;
 import com.xiaoxuedi.model.account.wx.WxSessionOutput;
 import com.xiaoxuedi.model.school.AddInput;
 import com.xiaoxuedi.repository.SchoolRepository;
+import com.xiaoxuedi.repository.UserRepository;
 import com.xiaoxuedi.service.AccountService;
 import com.xiaoxuedi.service.SchoolService;
 import com.xiaoxuedi.service.SmsService;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -41,6 +43,8 @@ import static com.xiaoxuedi.model.Output.*;
 public class WxAccountController extends AbstractController {
     @Autowired
     private AccountService accountService;
+    @Resource
+    private UserRepository userRepository;
     @Autowired
     private SmsService smsService;
     @Autowired
@@ -89,27 +93,29 @@ public class WxAccountController extends AbstractController {
                 SchoolRepository schoolRepository = Application.getBean(SchoolRepository.class);
 
                 List<SchoolEntity> list = schoolRepository.findAll();
-                if (list.size() == 0)
-                {
+                if (list.size() == 0) {
                     SchoolService schoolService = Application.getBean(SchoolService.class);
                     AddInput input = new AddInput();
                     input.setSchool("西南大学");
                     schoolService.add(input);
                     list = schoolRepository.findAll();
                 }
-                Map<String ,Object > sessionMap=gsonJsonParser.parseMap(response.body().string());
+                Map<String, Object> sessionMap = gsonJsonParser.parseMap(response.body().string());
 
                 registerInput.setOpenId((String) sessionMap.get("openid"));
                 registerInput.setSchoolId(list.get(0).getId());
                 registerInput.setSessionKey((String) sessionMap.get("session_key"));
-                Map<String ,Object >   userinfoMap = gsonJsonParser.parseMap(Wxmini.getUserInfo(wxSessionInput.getUserInfoEncryptedData(),(String) sessionMap.get("session_key"), wxSessionInput.getUserInfoIv()));
+                Map<String, Object> userinfoMap = gsonJsonParser.parseMap(Wxmini.getUserInfo(wxSessionInput.getUserInfoEncryptedData(), (String) sessionMap.get("session_key"), wxSessionInput.getUserInfoIv()));
 
                 registerInput.setUsername((String) userinfoMap.get("nickName"));
                 //由于手机号不能为空,这里随便填写一个手机号
-                registerInput.setMobile("13011111111");
-                registerInput.setSex( (Double)(userinfoMap.get("gender")) ==1?"1":(int)(userinfoMap.get("gender")) ==2?"2":"0");
+
+                String number = ("000000000" + userRepository.count()).substring((userRepository.count() + "").length());
+                System.out.println(number);
+                registerInput.setMobile("90"+number);
+                registerInput.setSex((Double) (userinfoMap.get("gender")) == 1 ? "1" : (int) (userinfoMap.get("gender")) == 2 ? "2" : "0");
                 registerInput.setPassword(((String) sessionMap.get("openid")).substring(6));
-                Output<WxSessionOutput> result = accountService.wxRegister(registerInput,wxSessionInput);
+                Output<WxSessionOutput> result = accountService.wxRegister(registerInput, wxSessionInput);
                 return result;
             } else
                 return outputParameterError();
