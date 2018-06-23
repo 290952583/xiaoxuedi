@@ -39,9 +39,9 @@ public class PayService {
      */
     public void  chargeOrdersStatus(String outTradeNo,String status)
     {
-    	MissionEntity mission = missionRepository.findByMissionNo(outTradeNo);
+    	MissionEntity mission = missionRepository.findById(outTradeNo);
     	
-    	OrdersEntity order = orderRepository.findByOrderNo(outTradeNo);
+    	OrdersEntity order = orderRepository.findById(outTradeNo);
     	if (mission != null )
     	{
     		switch (status)
@@ -119,8 +119,7 @@ public class PayService {
                 // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
                 String  return_code = notifyMap.get("return_code");//状态
                 String out_trade_no = notifyMap.get("out_trade_no");//订单号
-                String err_code=notifyMap.get("err_code").toString();//业务错误代码
-    			String err_code_des=notifyMap.get("err_code_des").toString();//业务错误代码描述
+
                 if(return_code.equals("SUCCESS")){
                     if(out_trade_no!=null){
                         //处理订单逻辑
@@ -136,6 +135,8 @@ public class PayService {
                     }
 
                 }else {
+                    String err_code=notifyMap.get("err_code");//业务错误代码
+                    String err_code_des=notifyMap.get("err_code_des");//业务错误代码描述
                 	chargeOrdersStatus(out_trade_no, "CANCEL");
     				log.error("支付业务结果失败，"+err_code+err_code_des);
                 }

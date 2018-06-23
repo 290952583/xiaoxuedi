@@ -103,7 +103,7 @@ public class PayController extends AbstractController {
         data.put("device_info", "WX");
         data.put("fee_type", "CNY");
         data.put("total_fee", String.valueOf((int)(Float.parseFloat(input.getTotalAmount())*100)));//微信单位为分
-        data.put("spbill_create_ip", getIp());//用户端实际ip
+        data.put("spbill_create_ip", "127.0.0.1");//用户端实际ip
         data.put("notify_url", wxPayProperties.getNotifyUrl());
         data.put("trade_type", "JSAPI");
         data.put("product_id", "12");
