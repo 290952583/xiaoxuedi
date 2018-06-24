@@ -8,10 +8,10 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.xiaoxuedi.util.GenerateRandomSequence;
 import com.xiaoxuedi.config.SmsProperties;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.common.SendSmsInput;
+import com.xiaoxuedi.util.GenerateRandomSequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +53,7 @@ public class SmsService
         session.setAttribute(MOBILE, mobile);
         session.setAttribute(SMSCODE, code);
         session.setAttribute(SENDTIME, LocalDateTime.now());
+        session.setAttribute(VERIFICATIONMOBILE, session.getAttribute(MOBILE));
     }
 
     public boolean verificationSmsSession(String mobile, String code)
@@ -132,18 +133,18 @@ public class SmsService
         request.setTemplateCode(smsProperties.getTemplateCode());
         request.setTemplateParam("{\"code\":\"" + code + "\"}");
 
-//        try
-//        {
-//            SendSmsResponse sendSmsResponse = getClient(smsProperties).getAcsResponse(request);
-//            if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK"))
-//            {
-//                return code;
-//            }
-//        }
-//        catch (ClientException e)
-//        {
-//            e.printStackTrace();
-//        }
-        return "111111";
+        try
+        {
+            SendSmsResponse sendSmsResponse = getClient(smsProperties).getAcsResponse(request);
+            if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK"))
+            {
+                return code;
+            }
+        }
+        catch (ClientException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
