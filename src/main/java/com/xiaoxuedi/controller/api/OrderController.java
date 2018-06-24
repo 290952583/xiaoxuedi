@@ -143,8 +143,8 @@ public class OrderController extends AbstractController
     @GetMapping("statusList")
     public Output statusList(@Valid StatusesInput input)
     {
-    	orderService.list(input);
-    	missionService.list(input);
+//    	orderService.list(input);
+//    	missionService.list(input);
     	Map<String, Object> map=new HashMap<String, Object>();
     	map.put("order", orderService.list(input));
     	map.put("mission", missionService.list(input));

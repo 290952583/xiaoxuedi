@@ -367,7 +367,7 @@ public class OrderService
      */
     public Output<List<ListOutput>> wxList(WxStatusesInput input)
     {
-        List<OrdersEntity> orders = orderRepository.findAllByUserAndStatusIn(UsersEntity.getUser(input.getUserid()), input.getStatuses(), input.getPageableSortByTime());
+        List<OrdersEntity> orders = orderRepository.findAllByUserAndStatusIn(UsersEntity.getUser(input.getUserid()), input.getOrderStatuses(), input.getPageableSortByTime());
         List<ListOutput> outputs = new ListOutput().fromEntityList(orders);
         for(ListOutput ordersEntity:outputs) {
             List<OrderCommodityEntity> commoditylist=orderCommodityRepository.findAllByOrderId(ordersEntity.getId());

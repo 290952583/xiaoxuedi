@@ -297,7 +297,7 @@ public class MissionService
      */
     public Output<List<ListOutput>> wxList(WxStatusesInput input)
     {
-        List<MissionEntity> missions = missionRepository.findAllByUser(UsersEntity.getUser(input.getUserid()), input.getPageableSortByTime());
+        List<MissionEntity> missions = missionRepository.findAllByUserAndStatusIn(UsersEntity.getUser(input.getUserid()), input.getMissionStatuses(),input.getPageableSortByTime());
         List<ListOutput> outputs = new ListOutput().fromEntityList(missions);
         return output(outputs);
     }
