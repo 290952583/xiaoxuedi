@@ -32,6 +32,8 @@ public class RegisterInput implements ModelToEntity<UsersEntity>
 	private String schoolId;
 
 	private String invitationCode;
+	
+	private String smsCode;
 
 	@Override
     public UsersEntity toEntity() {
