@@ -1,5 +1,6 @@
-package com.xiaoxuedi.model.account;
+package com.xiaoxuedi.model.account.wx;
 
+import cn.jiguang.common.utils.Nullable;
 import com.xiaoxuedi.entity.SchoolEntity;
 import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.ModelToEntity;
@@ -12,8 +13,16 @@ import java.math.BigDecimal;
 
 @Data
 @Validated
-public class RegisterInput implements ModelToEntity<UsersEntity>
+public class WxRegisterInput implements ModelToEntity<UsersEntity>
 {
+	//用于标记微信小程序的用户的身份id
+	@Nullable
+	private String openId;
+
+	//用于标记微信小程序的用户登录的以及对用户数据进行加密签名的密钥
+	@Nullable
+	private String sessionKey;
+
 	@NotNull
 	private String username;
 
@@ -36,6 +45,9 @@ public class RegisterInput implements ModelToEntity<UsersEntity>
 	@Override
     public UsersEntity toEntity() {
         UsersEntity user = new UsersEntity();
+        user.setOpenId(openId);
+        user.setSessionKey(sessionKey);
+        user.setThirdSessionKey(new StringBuffer(sessionKey).reverse().toString());
         user.setUsername(username);
         user.setPassword(password);
 		user.setMobile(mobile);

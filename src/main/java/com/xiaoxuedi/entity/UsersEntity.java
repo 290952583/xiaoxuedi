@@ -40,14 +40,14 @@ public class UsersEntity implements UserDetails {
     @JoinColumn(name = "id_card")
     private String idCard;
 
-    @JoinColumn(name = "open_id")
+    @JoinColumn(name = "open_id" , nullable = true)
     private String openId;
 
 
-    @JoinColumn(name = "session_key ")
+    @JoinColumn(name = "session_key " , nullable = true)
     private String sessionKey;
 
-    @JoinColumn(name = "third_session_key ")
+    @JoinColumn(name = "third_session_key ", nullable = true)
     private String thirdSessionKey;
 
     @JoinColumn(name = "invitation_code")

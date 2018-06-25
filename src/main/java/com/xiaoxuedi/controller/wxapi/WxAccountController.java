@@ -8,6 +8,7 @@ import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.account.AuthInput;
 import com.xiaoxuedi.model.account.RegisterInput;
 import com.xiaoxuedi.model.account.UserInfoOutput;
+import com.xiaoxuedi.model.account.wx.WxRegisterInput;
 import com.xiaoxuedi.model.account.wx.WxSessionInput;
 import com.xiaoxuedi.model.account.wx.WxSessionOutput;
 import com.xiaoxuedi.model.school.AddInput;
@@ -89,7 +90,7 @@ public class WxAccountController extends AbstractController {
             if (response.isSuccessful()) {
 
                 GsonJsonParser gsonJsonParser = new GsonJsonParser();
-                RegisterInput registerInput = new RegisterInput();
+                WxRegisterInput registerInput = new WxRegisterInput();
                 SchoolRepository schoolRepository = Application.getBean(SchoolRepository.class);
 
                 List<SchoolEntity> list = schoolRepository.findAll();

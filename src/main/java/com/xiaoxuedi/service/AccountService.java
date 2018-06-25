@@ -11,6 +11,7 @@ import com.xiaoxuedi.entity.ImageEntity;
 import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.account.*;
+import com.xiaoxuedi.model.account.wx.WxRegisterInput;
 import com.xiaoxuedi.model.account.wx.WxSessionInput;
 import com.xiaoxuedi.model.account.wx.WxSessionOutput;
 import com.xiaoxuedi.repository.ImageRepository;
@@ -46,7 +47,7 @@ public class AccountService {
         return userRepository.findByMobile(mobile);
     }
 
-    public Output<WxSessionOutput> wxRegister(RegisterInput input, WxSessionInput wxSessionInput) {
+    public Output<WxSessionOutput> wxRegister(WxRegisterInput input, WxSessionInput wxSessionInput) {
         UsersEntity user = userRepository.findByOpenId(input.getOpenId());
         GsonJsonParser gsonJsonParser = new GsonJsonParser();
 
