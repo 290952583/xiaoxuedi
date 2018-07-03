@@ -22,8 +22,8 @@ public class AddOrderInput implements ModelToEntity<OrdersEntity>
 	@Min(1)
     private BigDecimal actualAmount;//实际金额，应付
 	
-    @NotNull
-    @Min(1)
+//    @NotNull
+//    @Min(1)
     private BigDecimal deliveryAmount;//配送费
     
     @NotNull
