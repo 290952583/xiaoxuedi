@@ -3,6 +3,7 @@ package com.xiaoxuedi.service;
 import com.xiaoxuedi.model.feedback.AddInput;
 import com.xiaoxuedi.entity.FeedbackEntity;
 import com.xiaoxuedi.model.Output;
+import com.xiaoxuedi.model.feedback.wx.WxAddInput;
 import com.xiaoxuedi.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,15 @@ public class FeedbackService
     private FeedbackRepository feedbackRepository;
 
     public Output add(AddInput input)
+    {
+        FeedbackEntity feedback = feedbackRepository.save(input.toEntity());
+        if (feedback == null)
+        {
+            return outputParameterError();
+        }
+        return outputOk();
+    }
+    public Output add(WxAddInput input)
     {
         FeedbackEntity feedback = feedbackRepository.save(input.toEntity());
         if (feedback == null)
