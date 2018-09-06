@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("wxapi/business")
+    @RequestMapping("wxapi/business")
 public class WxBusinessController {
 
     @Autowired
     private BusinessService BusinessService;
 
+    //获取商家列表
     @GetMapping("list")
-    public Output list(@RequestParam(value = "schoolId", required = false)String schoolId){
+    public Output list(@RequestParam(value = "schoolId", required = false) String schoolId) {
         return BusinessService.list(schoolId);
     }
 }

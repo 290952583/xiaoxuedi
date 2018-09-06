@@ -114,7 +114,7 @@ public class WxAccountController extends AbstractController {
                 String number = ("000000000" + userRepository.count()).substring((userRepository.count() + "").length());
                 System.out.println(number);
                 registerInput.setMobile("90"+number);
-                registerInput.setSex((Double) (userinfoMap.get("gender")) == 1 ? "1" : (int) (userinfoMap.get("gender")) == 2 ? "2" : "0");
+                registerInput.setSex((Double) (userinfoMap.get("gender")) == 1 ? "1" : (Double) (userinfoMap.get("gender")) == 2 ? "2" : "0");
                 registerInput.setPassword(((String) sessionMap.get("openid")).substring(6));
                 Output<WxSessionOutput> result = accountService.wxRegister(registerInput, wxSessionInput);
                 return result;

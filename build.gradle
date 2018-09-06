@@ -47,8 +47,8 @@ dependencies {
             'org.json:json:20180130',
             'org.springframework.boot:spring-boot-starter-thymeleaf',
             'org.thymeleaf.extras:thymeleaf-extras-java8time',
-
     )
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     compile files(
             'libs/taobao-sdk-java-auto_1489127792844-20180201.jar',

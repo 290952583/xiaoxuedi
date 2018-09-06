@@ -16,8 +16,6 @@ import com.xiaoxuedi.entity.UsersEntity;
 import com.xiaoxuedi.model.Output;
 import com.xiaoxuedi.model.pay.AppOrderInput;
 import com.xiaoxuedi.repository.UserRepository;
-import com.xiaoxuedi.service.PayService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +32,8 @@ import java.util.Map;
 @RequestMapping("wxapi/pay")
 public class PayController extends AbstractController {
 
-    @Autowired
-    private PayService payService;
+//    @Autowired
+//    private PayService payService;
 
     @Resource
     private AlipayProperties alipayProperties;

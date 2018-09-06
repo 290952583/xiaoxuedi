@@ -7,6 +7,7 @@ import com.xiaoxuedi.service.PayService;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,13 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
+@Component
 @WebServlet(name = "alipayNotify", urlPatterns = "/servlet/alipayNotify")
 @Slf4j
 public class AlipayNotifyServlet extends HttpServlet {
@@ -32,7 +34,7 @@ public class AlipayNotifyServlet extends HttpServlet {
     
     @Autowired
     private PayService payService;
-    
+
     /**
      * 支付宝支付异步回调地址，逻辑处理
      */

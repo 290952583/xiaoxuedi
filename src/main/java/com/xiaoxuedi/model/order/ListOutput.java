@@ -15,6 +15,7 @@ public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
 	private String id;
 	private String orderNo;//订单号
 	private BigDecimal orderAmount;//订单金额
+	private BigDecimal packPrice;//打包费
 	private BigDecimal actualAmount;//实际金额
 	private BigDecimal couponAmount;//优惠金额
 	private BigDecimal deliveryAmount;//快递费
@@ -52,7 +53,7 @@ public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
 		 this.status=order.getStatus();
 		 this.businessName=order.getBusinessName();
 		 this.businessId=order.getBusinessId();
-		 
+		this.packPrice=order.getPackPrice();
 		return this;
 	}
 }

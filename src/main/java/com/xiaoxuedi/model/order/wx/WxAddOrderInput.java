@@ -19,19 +19,19 @@ public class WxAddOrderInput implements ModelToEntity<OrdersEntity>
     private String userid;
 
 	@NotNull
-	@Min(1)
+	@Min(0)
     private BigDecimal orderAmount;//订单金额，商品总价
     
 	@NotNull
-	@Min(1)
+	@Min(0)
     private BigDecimal actualAmount;//实际金额，应付
 	
     @NotNull
-    @Min(1)
+    @Min(0)
     private BigDecimal deliveryAmount;//配送费
     
     @NotNull
-    @Min(1)
+    @Min(0)
     private BigDecimal packPrice;//打包费
 
 //	@NotNull
@@ -73,7 +73,9 @@ public class WxAddOrderInput implements ModelToEntity<OrdersEntity>
 		order.setPackPrice(packPrice);
 		order.setPayType(payType);
 		order.setRemark(remark);
-		return order;
+		order.setBusinessId(businessId);
+        order.setBusinessName(businessName);
+        return order;
 	}
     
     

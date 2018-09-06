@@ -25,4 +25,6 @@ public class SchoolEntity {
     @JoinColumn(name = "address")
     private String address;
 
+    @JoinColumn(name = "pinyin")
+    private String pinyin;
 }
