@@ -1,6 +1,6 @@
 package com.xiaoxuedi.entity;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 

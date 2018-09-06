@@ -27,19 +27,19 @@ public class OrdersEntity extends BaseEntity implements BelongUser {
 
     @JoinColumn(name = "order_amount")
     private BigDecimal orderAmount;
-    
+
     @JoinColumn(name = "actual_amount")
     private BigDecimal actualAmount;//实际金额
 
     @JoinColumn(name = "coupon_amount")
     private BigDecimal couponAmount;
-    
+
     @JoinColumn(name = "coupon_id")
     private String coupon_id;//优惠券id
 
     @JoinColumn(name = "delivery_amount")
     private BigDecimal deliveryAmount;
-    
+
     @JoinColumn(name = "pack_price")
     private BigDecimal packPrice;//打包费用
 
@@ -57,7 +57,7 @@ public class OrdersEntity extends BaseEntity implements BelongUser {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Type type=Type.CHARGE;
+    private Type type = Type.CHARGE;
 
     @JoinColumn(name = "pay_type")
     private String payType;
@@ -69,11 +69,14 @@ public class OrdersEntity extends BaseEntity implements BelongUser {
     private String acceptUserId;
 
     @JoinColumn(name = "remark")
-    private String remark;
-    
+    private String remark;//备注
+
+    @JoinColumn(name = "addressId")
+    private String addressId;//地址id
+
     @JoinColumn(name = "business_name")
     private String businessName;//店铺名称
-    
+
     @JoinColumn(name = "business_id")
     private String businessId;//店铺id
 
@@ -91,7 +94,7 @@ public class OrdersEntity extends BaseEntity implements BelongUser {
         RELEASE,
         FINISH,
     }
-    
+
     public enum Status {
         WAIT,//等待
         PROCESSING,//处理

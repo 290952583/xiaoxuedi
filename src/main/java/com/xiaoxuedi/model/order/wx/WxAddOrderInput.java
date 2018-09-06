@@ -17,7 +17,8 @@ public class WxAddOrderInput implements ModelToEntity<OrdersEntity>
 {
     @NotNull
     private String userid;
-
+    @NotNull
+    private String addressId;
 	@NotNull
 	@Min(0)
     private BigDecimal orderAmount;//订单金额，商品总价
@@ -75,6 +76,7 @@ public class WxAddOrderInput implements ModelToEntity<OrdersEntity>
 		order.setRemark(remark);
 		order.setBusinessId(businessId);
         order.setBusinessName(businessName);
+        order.setAddressId(addressId);
         return order;
 	}
     
