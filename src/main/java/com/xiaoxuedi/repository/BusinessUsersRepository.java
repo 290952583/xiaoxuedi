@@ -10,4 +10,6 @@ import java.util.List;
 public interface BusinessUsersRepository extends JpaRepository<BusinessUsersEntity, String> {
 
     List<BusinessUsersEntity> findAllBySchoolId(String schoolId);
+    BusinessUsersEntity findAllById(String Id);
+
 }

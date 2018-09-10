@@ -10,6 +10,7 @@ import com.xiaoxuedi.model.order.StatusesInput;
 import com.xiaoxuedi.model.order.TransferInput;
 import com.xiaoxuedi.model.order.wx.WxAddOrderInput;
 import com.xiaoxuedi.model.order.wx.WxStatusesInput;
+import com.xiaoxuedi.model.order.wx.WxTypesInput;
 import com.xiaoxuedi.service.MissionService;
 import com.xiaoxuedi.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,6 +156,17 @@ public class WxOrderController extends AbstractController
 //    	missionService.list(input);
         Map<String, Object> map=new HashMap<String, Object>();
         map.put("order", orderService.wxList(input));
+        map.put("mission", missionService.wxList(input));
+        return output(map);
+    }
+
+    @PostMapping("typesList")
+    public Output typesList(@Valid  @RequestBody WxTypesInput input)
+    {
+//    	orderService.list(input);
+//    	missionService.list(input);
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("order", orderService.wxTypesList(input));
         map.put("mission", missionService.wxList(input));
         return output(map);
     }

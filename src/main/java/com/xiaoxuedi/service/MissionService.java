@@ -10,6 +10,7 @@ import com.xiaoxuedi.model.mission.*;
 import com.xiaoxuedi.model.mission.wx.WxAddInput;
 import com.xiaoxuedi.model.mission.wx.WxListOutput;
 import com.xiaoxuedi.model.order.wx.WxStatusesInput;
+import com.xiaoxuedi.model.order.wx.WxTypesInput;
 import com.xiaoxuedi.repository.CouponRepository;
 import com.xiaoxuedi.repository.MissionRepository;
 import com.xiaoxuedi.repository.UserRepository;
@@ -302,5 +303,15 @@ public class MissionService
         List<WxListOutput> outputs = new WxListOutput().fromEntityList(missions);
         return output(outputs);
     }
-    
+    /**
+     * 小程序根据状态查询快递订单列表
+     * @param input
+     * @return
+     */
+    public Output<List<WxListOutput>> wxList(WxTypesInput input)
+    {
+        List<MissionEntity> missions = missionRepository.findAllByUserAndStatusIn(UsersEntity.getUser(input.getUserid()), input.getMissionStatuses(),input.getPageableSortByTime());
+        List<WxListOutput> outputs = new WxListOutput().fromEntityList(missions);
+        return output(outputs);
+    }
 }

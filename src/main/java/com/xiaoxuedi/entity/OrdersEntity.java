@@ -86,20 +86,19 @@ public class OrdersEntity extends BaseEntity implements BelongUser {
 
 
     public enum Type {
-        CHARGE,
-        CHARGE_SUCCEEDED,
-        TRANSFER,
-        TRANSFER_SUCCEEDED,
-        TRANSFER_FAILED,
-        RELEASE,
-        FINISH,
+        CHARGE,//接单中
+        CHARGE_SUCCEEDED,//接单成功
+        TRANSFER,//运送中
+        TRANSFER_SUCCEEDED,//运送成功
+        TRANSFER_FAILED,//运送失败
+        FINISH,//订单完成
     }
 
     public enum Status {
-        WAIT,//等待
+        WAIT,//等待支付
         PROCESSING,//处理
-        CANCEL,//取消
-        SUCCESS,//成功
+        CANCEL,//支付取消
+        SUCCESS,//支付成功
         FINISH,//完成
     }
 }

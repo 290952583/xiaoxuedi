@@ -10,14 +10,16 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<OrdersEntity, String> {
-	
-	OrdersEntity findByOrderNo(String orderNo);
+
+    OrdersEntity findByOrderNo(String orderNo);
+
     OrdersEntity findById(String id);
 
     List<OrdersEntity> findAllByUser(UsersEntity user, Pageable pageable);
-    
+
     List<OrdersEntity> findAllByUserAndStatusIn(UsersEntity user, OrdersEntity.Status[] status, Pageable pageable);
-    
-    
+
+    List<OrdersEntity> findAllByUserAndTypeIn(UsersEntity user, OrdersEntity.Type[] types, Pageable pageable);
+
 
 }

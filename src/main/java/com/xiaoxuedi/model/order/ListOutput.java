@@ -2,8 +2,11 @@ package com.xiaoxuedi.model.order;
 
 import com.xiaoxuedi.entity.OrdersEntity;
 import com.xiaoxuedi.model.ModelFromEntityList;
+import com.xiaoxuedi.repository.BusinessUsersRepository;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Data;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,6 +15,7 @@ import java.util.List;
 @Data
 public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
 {
+
 	private String id;
 	private String orderNo;//订单号
 	private BigDecimal orderAmount;//订单金额
@@ -31,12 +35,14 @@ public class ListOutput implements ModelFromEntityList<OrdersEntity, ListOutput>
 	private List<OrderCommodityListOutput> orderCommodity;//订单商品
 	
     private String businessName;//店铺名称
-    
-    private String businessId;//店铺id
+	private String businessImg;//店铺头像
+
+	private String businessId;//店铺id
 
 	@Override
 	public ListOutput fromEntity(OrdersEntity order)
 	{
+
 		 this.id=order.getId();
 		 this.orderNo=order.getOrderNo();//订单号
 		 this.orderAmount=order.getOrderAmount();//订单金额

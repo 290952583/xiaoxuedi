@@ -21,12 +21,21 @@ public class BusinessService {
 
     /**
      * 查询所有商户信息列表（无分页）
+     *
      * @return
      */
-    public Output<List<ListOutput>> list(String schoolId)
-    {
+    public Output<List<ListOutput>> list(String schoolId) {
         List<BusinessUsersEntity> commoditys = businessUsersRepository.findAllBySchoolId(schoolId);
         List<ListOutput> outputs = new ListOutput().fromEntityList(commoditys);
         return output(outputs);
+    }
+
+    /**
+     * 查询单个商家
+     *
+     * @return
+     */
+    public Output<BusinessUsersEntity> item(String businessId) {
+        return output(businessUsersRepository.findAllById(businessId));
     }
 }
